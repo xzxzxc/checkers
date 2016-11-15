@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            Game.StartGame();
+            Game.StartNormalGame();
 
             this.SuspendLayout();
             
@@ -39,12 +39,12 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(600, 600);
-            foreach (Checker chWhite in Table.chsWhite)
+            foreach (Checker chWhite in Game.chsWhite)
             {
                 ((System.ComponentModel.ISupportInitialize)(chWhite.chBox)).EndInit();
                 Table.tableBox.Controls.Add(chWhite.chBox);
             }
-            foreach (Checker chBlack in Table.chsBlack)
+            foreach (Checker chBlack in Game.chsBlack)
             {
                 Table.tableBox.Controls.Add(chBlack.chBox);
                 ((System.ComponentModel.ISupportInitialize)(chBlack.chBox)).EndInit();
