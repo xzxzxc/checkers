@@ -7,11 +7,10 @@ namespace checkers
     /// <summary>
     /// Class for controling game table
     /// </summary>
-    public static class Table
+    public static class Field
     {
         public static PictureBox tableBox; // table pic
-        public static Cell[,] cells = new Cell[8, 8]; // list of cells on tanle
-        public static Checker selected = null; // current selected checker
+
         /// <summary>
         /// Method for deleting checker from table
         /// </summary>
@@ -19,19 +18,19 @@ namespace checkers
         /// <param name="y"></param>
         public static void delChecker(int x, int y)
         {
-            Cell cell = cells[x, y];
-            for (int i = Game.chsBlack.Count - 1; i >= 0; --i)
-                if (Game.chsBlack[i].myCell == cell)
+            Cell cell = TableCells.Cell[x, y];
+            for (int i = GameDataHandler.chsBlack.Count - 1; i >= 0; --i)
+                if (GameDataHandler.chsBlack[i].myCell == cell)
                 {
-                    Game.chsBlack[i].chBox.Visible = false;
-                    Game.chsBlack.RemoveAt(i);
+                    GameDataHandler.chsBlack[i].chBox.Visible = false;
+                    GameDataHandler.chsBlack.RemoveAt(i);
                     return;
                 }
-            for (int i = Game.chsWhite.Count - 1; i >=0; --i)
-                if (Game.chsWhite[i].myCell == cell)
+            for (int i = GameDataHandler.chsWhite.Count - 1; i >=0; --i)
+                if (GameDataHandler.chsWhite[i].myCell == cell)
                 {
-                    Game.chsWhite[i].chBox.Visible = false;
-                    Game.chsWhite.RemoveAt(i);
+                    GameDataHandler.chsWhite[i].chBox.Visible = false;
+                    GameDataHandler.chsWhite.RemoveAt(i);
                     return;
                 }
         }
@@ -40,19 +39,19 @@ namespace checkers
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        static private void tableBox_Click(Object sender, EventArgs e)
+        static void tableBox_Click(Object sender, EventArgs e)
         {
             MouseEventArgs me = (MouseEventArgs)e;
             int X = me.X / 75;
             int Y = me.Y / 75;
-            Cell clickCell = cells[X, Y];
-            if (selected == null)
+            Cell clickCell = TableCells.Cell[X, Y];
+            if (GameDataHandler.selected == null)
                 return;
-            foreach (Move m in Game.allowedMoves)
-                if (m.toCell == clickCell && m.getSuperUncle() == selected)
+            foreach (Move m in GameDataHandler.allowedMoves)
+                if (m.toCell == clickCell && m.Checker == GameDataHandler.selected)
                 {
-                    selected.Move(m);
-                    selected = null;
+                    GameDataHandler.selected.Move(m);
+                    GameDataHandler.selected = null;
                     break;
                 }
         }
@@ -74,27 +73,7 @@ namespace checkers
             tableBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             tableBox.TabIndex = 0;
             tableBox.TabStop = false;
-            tableBox.Click += new System.EventHandler(tableBox_Click);
-
-            for (int i = 0; i < 8; ++i)
-                for (int j = 0; j < 8; ++j)
-                    cells[i, j] = new Cell(i, j);
-        }
-        /// <summary>
-        /// Get checker that located on cell
-        /// </summary>
-        /// <param name="cell">cell</param>
-        /// <returns>checker</returns>
-        public static Checker getChecker(Cell cell)
-        {
-            foreach (Checker ch in Game.chsBlack)
-                if (ch.myCell == cell)
-                    return ch;
-            foreach (Checker ch in Game.chsWhite)
-                if (ch.myCell == cell)
-                    return ch;
-            MessageBox.Show("no checker");
-            return null;
+            tableBox.Click += new System.EventHandler(tableBox_Click);   
         }
     }
 }

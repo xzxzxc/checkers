@@ -39,18 +39,18 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(600, 600);
-            foreach (Checker chWhite in Game.chsWhite)
+            foreach (Checker chWhite in GameDataHandler.chsWhite)
             {
                 ((System.ComponentModel.ISupportInitialize)(chWhite.chBox)).EndInit();
-                Table.tableBox.Controls.Add(chWhite.chBox);
+                Field.tableBox.Controls.Add(chWhite.chBox);
             }
-            foreach (Checker chBlack in Game.chsBlack)
+            foreach (Checker chBlack in GameDataHandler.chsBlack)
             {
-                Table.tableBox.Controls.Add(chBlack.chBox);
+                Field.tableBox.Controls.Add(chBlack.chBox);
                 ((System.ComponentModel.ISupportInitialize)(chBlack.chBox)).EndInit();
             }
-            this.Controls.Add(Table.tableBox);
-            ((System.ComponentModel.ISupportInitialize)(Table.tableBox)).EndInit();
+            this.Controls.Add(Field.tableBox);
+            ((System.ComponentModel.ISupportInitialize)(Field.tableBox)).EndInit();
             this.Name = "Checkers";
             this.Text = "Checkers";
             
