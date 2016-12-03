@@ -1,5 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Windows.Forms;
+using checkers.Cells;
+using checkers.Checkers;
+using checkers.Moves;
 
 namespace checkers
 {
@@ -20,7 +23,6 @@ namespace checkers
             Game.isWhite = isWhite;
             GameDataHandler.chsWhite = new List<WhiteChecker>();
             GameDataHandler.chsBlack = new List<BlackChecker>();
-            GameDataHandler.allowedMoves = new List<Move>();
 
             DisposeTestWhite(whiteCheckersCoordinates);
             DisposeTestBlack(blackCheckersCoordinates);
@@ -39,13 +41,14 @@ namespace checkers
             foreach (int[] checkerCoordinates in checkersCoordinates)
             {
                 Cell wCell = TableCells.Cell[checkerCoordinates[0], checkerCoordinates[1]];
-                Checker checker = (isWhite) ? new WhiteChecker(wCell) as Checker: new BlackChecker(wCell) as Checker;
-                checker.isQueen = isQueen;
-                wCell.checker = checker;
+                Checker checker = (isWhite) ? (Checker) new WhiteChecker(wCell, MoveDirection.BottomTop): new BlackChecker(wCell, MoveDirection.TopBottom);
+                if (isQueen)
+                    checker.BeQueen();
+                // wCell.Checker = checker;
                 if (isWhite)
-                    GameDataHandler.chsWhite.Add(checker as WhiteChecker);
+                    GameDataHandler.chsWhite.Add((WhiteChecker) checker);
                 else
-                    GameDataHandler.chsBlack.Add(checker as BlackChecker);
+                    GameDataHandler.chsBlack.Add((BlackChecker) checker);
             }
         }
 
@@ -65,6 +68,7 @@ namespace checkers
         {
             DisposeTest(checkersCoordinates, false, true);
         }
+
         /// <summary>
         /// Start new game
         /// </summary>
@@ -73,9 +77,9 @@ namespace checkers
             GameDataHandler.chsWhite = new List<WhiteChecker>();
             GameDataHandler.chsBlack = new List<BlackChecker>();
             isWhite = true;
-            GameDataHandler.allowedMoves = new List<Move>();
-            Field.CreateTable();
-            
+
+            TableCells.Draw();
+
             DisposeNormalWhite();
 
             ComputeMovesWhite();
@@ -101,23 +105,26 @@ namespace checkers
             for (int i = 0; i < 3; ++i)
                 for (int j = 0; j < 4; ++j)
                 {
-                    Cell wCell = TableCells.Cell[2*j + i%2, 7 - i];
-                    WhiteChecker wChecker = new WhiteChecker(wCell);
-                    wCell.checker = wChecker;
+                    Cell wCell = TableCells.Cell[i % 2 + 2*j, 7 - i];
+                    WhiteChecker wChecker = new WhiteChecker(wCell, MoveDirection.BottomTop);
                     GameDataHandler.chsWhite.Add(wChecker);
-                    Cell bCell = TableCells.Cell[1 + 2*j - i%2, i];
-                    BlackChecker bChecker = new BlackChecker(bCell);
-                    bCell.checker = bChecker;
+                    Cell bCell = TableCells.Cell[(i + 1) % 2 + 2 * j, i];
+                    BlackChecker bChecker = new BlackChecker(bCell, MoveDirection.TopBottom);
                     GameDataHandler.chsBlack.Add(bChecker);
                 }
         }
 
+        public static bool CheckEndOfGame()
+        {
+            return GameDataHandler.chsBlack.Count == 0 || GameDataHandler.chsWhite.Count == 0;
+        }
         public static void EndGame()
         {
+            // MessageBox.Show(GameDataHandler.chsBlack.Count == 0? "White win":"Black win", "Game is end");
             GameDataHandler.chsWhite = null;
             GameDataHandler.chsBlack = null;
-            GameDataHandler.allowedMoves = null;
             TableCells.Clear();
+
         }
     }
 }

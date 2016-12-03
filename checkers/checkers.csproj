@@ -62,22 +62,34 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AllowedMovesCalculator.cs" />
-    <Compile Include="Checker.cs" />
-    <Compile Include="Form1.cs">
+    <Compile Include="Checkers\BlackChecker.cs" />
+    <Compile Include="Cells\Cell.cs" />
+    <Compile Include="Checkers\Checker.cs" />
+    <Compile Include="Checkers\Implementations\CheckerImpl.cs" />
+    <Compile Include="GameForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="GameForm.Designer.cs">
+      <DependentUpon>GameForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Game.cs" />
     <Compile Include="GameDataHandler.cs" />
-    <Compile Include="Move.cs" />
+    <Compile Include="GraphicalImplementation\GraphicalImplementatin.cs" />
+    <Compile Include="Moves\Move.cs" />
+    <Compile Include="Moves\MoveDirection.cs" />
+    <Compile Include="Moves\MoveBackwardLeft.cs" />
+    <Compile Include="Moves\MoveBackwardRight.cs" />
+    <Compile Include="Moves\MoveForwardLeft.cs" />
+    <Compile Include="Moves\MoveForwardRight.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Field.cs" />
-    <Compile Include="TableCells.cs" />
-    <EmbeddedResource Include="Form1.resx">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="Checkers\Implementations\QueenChImpl.cs" />
+    <Compile Include="Checkers\Implementations\SimpleChImpl.cs" />
+    <Compile Include="Cells\TableCells.cs" />
+    <Compile Include="Checkers\WhiteChecker.cs" />
+    <Compile Include="Window.cs" />
+    <EmbeddedResource Include="GameForm.resx">
+      <DependentUpon>GameForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -103,19 +115,16 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="white_checker.png" />
+    <None Include="Images\white_checker.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="table.jpg" />
+    <None Include="Images\black_checker.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="black_checker.png" />
+    <None Include="Images\black_checker_queen.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="black_checker_queen.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="white_checker_queen.png" />
+    <None Include="Images\white_checker_queen.png" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5.2">
@@ -129,6 +138,7 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
