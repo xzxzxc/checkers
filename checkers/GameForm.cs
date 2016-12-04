@@ -1,11 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace checkers
@@ -21,8 +14,23 @@ namespace checkers
 
         private void StartNewGameClick(Object sender, EventArgs e)
         {
+            Game.Clear();
             Game.StartNormalGame();
         }
 
+        private void ExitClick(Object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
+        private void UndoClick(Object sender, EventArgs e)
+        {
+            Game.Undo();
+        }
+
+        private void RedoClick(Object sender, EventArgs e)
+        {
+            Game.Redo();
+        }
     }
 }

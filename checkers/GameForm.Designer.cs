@@ -11,6 +11,9 @@ namespace checkers
         /// </summary>
         private System.ComponentModel.IContainer components = null;
 
+        /// <summary>
+        /// Field picture box
+        /// </summary>
         private PictureBox _fieldBox;
         private ToolStrip _menuToolStrip;
         private ToolStripDropDownButton _gameSessionToolStripDropDownButton;
@@ -62,6 +65,7 @@ namespace checkers
             this._exitToolStripMenuItem.Name = "exitToolStripMenuItem";
             this._exitToolStripMenuItem.Size = new Size(152, 22);
             this._exitToolStripMenuItem.Text = "Exit";
+            this._exitToolStripMenuItem.Click += ExitClick;
 
             this._toolStripSeparator1 = new ToolStripSeparator();
             this._toolStripSeparator1.Name = "toolStripSeparator1";
@@ -71,11 +75,13 @@ namespace checkers
             this._redoToolStripButton.Name = "RedoToolStripButton";
             this._redoToolStripButton.Size = new Size(23, 22);
             this._redoToolStripButton.Text = "Redo";
+            this._redoToolStripButton.Click += RedoClick;
 
             this._undoToolStripButton = new ToolStripButton();
             this._undoToolStripButton.Name = "UndoToolStripButton";
             this._undoToolStripButton.Size = new Size(23, 22);
             this._undoToolStripButton.Text = "Undo";
+            this._undoToolStripButton.Click += UndoClick;
 
             _gameSessionToolStripDropDownButton.DropDownItems.AddRange(new ToolStripItem[]
             {
@@ -102,8 +108,6 @@ namespace checkers
             this.ResumeLayout(false);
         }
 
-
-
         private void InitializeForm()
         {
             this.SuspendLayout();
@@ -118,10 +122,6 @@ namespace checkers
             this.ResumeLayout(false);
         }
 
-        /// <summary>
-        /// Required method for Designer support - do not modify
-        /// the contents of this method with the code editor.
-        /// </summary>
         private void InitializeField()
         {
             this.SuspendLayout();

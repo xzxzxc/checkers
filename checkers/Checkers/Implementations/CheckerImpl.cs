@@ -1,19 +1,30 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using checkers.Cells;
-using checkers.Checkers;
 using checkers.Moves;
 
-namespace checkers
+namespace checkers.Checkers.Implementations
 {
+    /// <summary>
+    /// Abstract class that contains checker nature implementation
+    /// </summary>
     public abstract class CheckerImpl
     {
-        public Cell Cell { get; set; } // cell on table witch contains this checker
-        public List<Move> AllowedMoves { get; set; } = new List<Move>() ; // list of alowed moves for all checkers
+        /// <summary>
+        /// Cell on table witch contains this checker
+        /// </summary>
+        public Cell Cell { get; set; }
+        /// <summary>
+        /// List of alowed moves for this checker
+        /// </summary>
+        public List<Move> AllowedMoves { get; set; } = new List<Move>();
+        /// <summary>
+        /// Direction of moves
+        /// </summary>
         public MoveDirection MoveDir { get; }
-
+        /// <summary>
+        /// Default constructor for checker nature implemenattion
+        /// </summary>
+        /// <param name="moveDir">Direction of moves</param>
         protected CheckerImpl(MoveDirection moveDir)
         {
             MoveDir = moveDir;

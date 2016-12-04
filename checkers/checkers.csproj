@@ -74,7 +74,11 @@
     </Compile>
     <Compile Include="Game.cs" />
     <Compile Include="GameDataHandler.cs" />
-    <Compile Include="GraphicalImplementation\GraphicalImplementatin.cs" />
+    <Compile Include="GraphicalImplementation\CellGraphicalImplementation.cs" />
+    <Compile Include="GraphicalImplementation\CheckerGraphicalImplementation.cs" />
+    <Compile Include="GraphicalImplementation\SpriteGraphicalImplemantation.cs" />
+    <Compile Include="GraphicalImplementation\WhinowsCheckerImplementation.cs" />
+    <Compile Include="GraphicalImplementation\WindowsCellImplementation.cs" />
     <Compile Include="Moves\Move.cs" />
     <Compile Include="Moves\MoveDirection.cs" />
     <Compile Include="Moves\MoveBackwardLeft.cs" />
@@ -87,7 +91,6 @@
     <Compile Include="Checkers\Implementations\SimpleChImpl.cs" />
     <Compile Include="Cells\TableCells.cs" />
     <Compile Include="Checkers\WhiteChecker.cs" />
-    <Compile Include="Window.cs" />
     <EmbeddedResource Include="GameForm.resx">
       <DependentUpon>GameForm.cs</DependentUpon>
     </EmbeddedResource>

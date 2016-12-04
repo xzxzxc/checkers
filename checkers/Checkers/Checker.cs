@@ -2,20 +2,27 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using checkers.Cells;
+using checkers.Checkers.Implementations;
 using checkers.GraphicalImplementation;
 using checkers.Moves;
 
 namespace checkers.Checkers
 {
     /// <summary>
-    /// class for controling checkers
+    /// Abstartct class for controling checkers
     /// </summary>
     public abstract class Checker
     {
-        private CheckerGraphicalImplementation _graphicalImpl;
+        /// <summary>
+        /// Checker graphical implemenatation
+        /// </summary>
+        private readonly CheckerGraphicalImplementation _graphicalImpl;
+        /// <summary>
+        /// Standart click event
+        /// </summary>
         public event Click Click;
         /// <summary>
-        /// cell on table witch contains this checker
+        /// Cell on table witch contains this checker
         /// </summary>
         public Cell Cell
         {
@@ -28,141 +35,208 @@ namespace checkers.Checkers
             get { return _impl.Cell; }
         }
         /// <summary>
-        /// list of alowed moves for all checkers
+        /// List of alowed moves for this checker
         /// </summary>
-        public List<Move> allowedMoves
+        public List<Move> AllowedMoves
         {
             private set { _impl.AllowedMoves = value; }
             get { return _impl.AllowedMoves; }
         }
-
+        /// <summary>
+        /// Direction of moves
+        /// </summary>
         public MoveDirection MoveDir => _impl.MoveDir;
-
+        /// <summary>
+        /// Checker nature implementation
+        /// </summary>
         private CheckerImpl _impl;
-
+        /// <summary>
+        /// Make checker ded
+        /// </summary>
         public void Kill()
         {
-            Cell.Checker = null;
+            Cell.Clear();
             _graphicalImpl.Visible = false;
             if (this is WhiteChecker)
-                GameDataHandler.chsWhite.Remove(this as WhiteChecker);
+                GameDataHandler.WhiteCheckers.Remove(this as WhiteChecker);
             else
-                GameDataHandler.chsBlack.Remove(this as BlackChecker);
+                GameDataHandler.BlackCheckers.Remove(this as BlackChecker);
         }
-
+        /// <summary>
+        /// Make checker alive
+        /// </summary>
+        public void Resurect()
+        {
+            Cell.Checker = this;
+            _graphicalImpl.Visible = true;
+            if (this is WhiteChecker)
+                GameDataHandler.WhiteCheckers.Add(this as WhiteChecker);
+            else
+                GameDataHandler.BlackCheckers.Add(this as BlackChecker);
+        }
+        /// <summary>
+        /// Clear allowed moves
+        /// </summary>
         public void ClearMoves()
         {
-            allowedMoves = new List<Move>();
+            AllowedMoves = new List<Move>();
         }
-
+        /// <summary>
+        /// Get checker image
+        /// </summary>
+        /// <returns></returns>
         public Object GetImage()
         {
             return _graphicalImpl.GetImage();
         }
 
         /// <summary>
-        /// method for selecting checker
+        /// Make checker selected
         /// </summary>
-        private void select()
+        private void Select()
         {
             _graphicalImpl.ChancheBgColor(Color.Khaki);
-            foreach (Move move in allowedMoves)
+            foreach (Move move in AllowedMoves)
             {
-                move.toCell.ChangeBgColor(Color.BlueViolet);
-                move.toCell.Click += move.Do;
+                move.ToCell.ChangeBgColor(Color.BlueViolet);
+                move.ToCell.Click += move.Do;
             }
-            GameDataHandler.selected = this;
+            GameDataHandler.Selected = this;
         }
         /// <summary>
-        /// method for unselecting checker
+        /// Make checker unselected
         /// </summary>
         public void Unselect()
         {
             _graphicalImpl.ChancheBgColor(Color.Transparent);
-            foreach (Move move in allowedMoves)
+            foreach (Move move in AllowedMoves)
             {
-                move.toCell.ChangeBgColor(Color.Gray);
-                move.toCell.Click -= move.Do;
+                move.ToCell.ChangeBgColor(Color.Gray);
+                move.ToCell.Click -= move.Do;
             }
-            GameDataHandler.selected = null;
+            GameDataHandler.Selected = null;
         }
 
         /// <summary>
-        /// method that calls, when checker was pressed (call select method for corresponding checker)
+        /// Calls, when checker was pressed
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void CheckerClick()
         {
-            if (Game.isWhite == this is WhiteChecker)
+            if (Game.IsWhite == this is WhiteChecker)
             {
-                if(GameDataHandler.selected!=null)
-                    GameDataHandler.selected.Unselect();
-                select();
+                if(GameDataHandler.Selected!=null)
+                    GameDataHandler.Selected.Unselect();
+                Select();
             }
         }
+
         /// <summary>
         /// Constructor of checker
         /// </summary>
-        /// <param name="cell">cell, where the checker located</param>
-        /// <param name="color">black, or white</param>
+        /// <param name="cell">Cell, where the checker located</param>
+        /// <param name="moveDirection">Direction of moves</param>
         protected Checker(Cell cell, MoveDirection moveDirection)
         {
             _graphicalImpl = new WhinowsCheckerImplementation(cell);
-            _graphicalImpl.CheckerClick += CheckerClick;
-            _graphicalImpl.CheckerClick += () => Click?.Invoke();
+            _graphicalImpl.SpriteClick += CheckerClick;
+            _graphicalImpl.SpriteClick += () => Click?.Invoke();
             _impl = new SimpleChImpl(moveDirection);
             _impl.Cell = cell;
             cell.Checker = this;
         }
-
-        public virtual void BeQueen()
+        /// <summary>
+        /// Start be queen
+        /// </summary>
+        public void BeQueen()
         {
             _impl = new QueenChImpl(MoveDir) {Cell = _impl.Cell };
             _graphicalImpl.BeQueen();
         }
-
+        /// <summary>
+        /// Stop be queen
+        /// </summary>
+        public void UnBeQueen()
+        {
+            _impl = new SimpleChImpl(MoveDir) { Cell = _impl.Cell };
+            _graphicalImpl.UnBeQueen();
+        }
+        /// <summary>
+        /// Draw checker on field
+        /// </summary>
+        /// <param name="color"></param>
         protected void Draw(Color color)
         {
-            _graphicalImpl.CheckerDraw(color);
+            _graphicalImpl.Draw(color);
         }
-
+        /// <summary>
+        /// Move checker to cell
+        /// </summary>
+        /// <param name="toCell">Where checker will be moved</param>
+        public void Move(Cell toCell)
+        {
+            Cell = toCell;
+        }
+        /// <summary>
+        /// Check that checker can go forward left
+        /// </summary>
+        /// <returns>True if can, false if can't</returns>
         public bool CheckForwardLeft()
         {
             return _impl.CheckForwardLeft();
         }
-
-        public  bool CheckForwardRight()
+        /// <summary>
+        /// Check that checker can go forward right
+        /// </summary>
+        /// <returns>True if can, false if can't</returns>
+        public bool CheckForwardRight()
         {
             return _impl.CheckForwardRight();
         }
-
-        public  bool CheckBackwardLeft()
+        /// <summary>
+        /// Check that checker can go backward left
+        /// </summary>
+        /// <returns>True if can, false if can't</returns>
+        public bool CheckBackwardLeft()
         {
             return _impl.CheckBackwardLeft();
         }
-
-        public  bool CheckBackwardRight()
+        /// <summary>
+        /// Check that checker can go backward right
+        /// </summary>
+        /// <returns>True if can, false if can't</returns>
+        public bool CheckBackwardRight()
         {
             return _impl.CheckBackwardRight();
         }
-
-        public  bool CheckKillForwardLeft(out Checker killed)
+        /// <summary>
+        /// Check that checker can go forward left and kill
+        /// </summary>
+        /// <returns>True if can, false if can't</returns>
+        public bool CheckKillForwardLeft(out Checker killed)
         {
             return _impl.CheckKillForwardLeft(out killed);
         }
-
-        public  bool CheckKillForwardRight(out Checker killed)
+        /// <summary>
+        /// Check that checker can go forward right and kill
+        /// </summary>
+        /// <returns>True if can, false if can't</returns>
+        public bool CheckKillForwardRight(out Checker killed)
         {
             return _impl.CheckKillForwardRight(out killed);
         }
-
-        public  bool CheckKillBackwardLeft(out Checker killed)
+        /// <summary>
+        /// Check that checker can go backward left and kill
+        /// </summary>
+        /// <returns>True if can, false if can't</returns>
+        public bool CheckKillBackwardLeft(out Checker killed)
         {
             return _impl.CheckKillBackwardLeft(out killed);
         }
-
-        public  bool CheckKillBackwardRight(out Checker killed)
+        /// <summary>
+        /// Check that checker can go backward right and kill
+        /// </summary>
+        /// <returns>True if can, false if can't</returns>
+        public bool CheckKillBackwardRight(out Checker killed)
         {
             return _impl.CheckKillBackwardRight(out killed);
         }
@@ -187,10 +261,6 @@ namespace checkers.Checkers
             return _impl.GetCellAfterKillBackwardRight(killed);
         }
 
-        public void Move(Cell toCell)
-        {
-            Cell = toCell;
-        }
         public void AddMoveForwardLeft()
         {
             _impl.AddMoveForwardLeft(this);

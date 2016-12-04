@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using checkers.Cells;
 using checkers.Checkers;
+using checkers.Checkers.Implementations;
 using checkers.Moves;
 
 namespace checkers

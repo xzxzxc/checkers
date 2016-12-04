@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Windows.Forms;
 using checkers.Cells;
 using checkers.Checkers;
 
@@ -11,82 +9,157 @@ namespace checkers.Moves
     /// </summary>
     public abstract class Move
     {
-        public Checker Checker { get; } // what chacker is moving
-        public Cell toCell; // where checker move
-        public List<Checker> killed; // what checkers will be killed
-
+        /// <summary>
+        /// Chacker thats moving
+        /// </summary>
+        public Checker Checker { get; }
+        /// <summary>
+        /// Where checker move
+        /// </summary>
+        public Cell ToCell;
+        /// <summary>
+        /// What checkers will be killed
+        /// </summary>
+        public List<Checker> Killed;
+        /// <summary>
+        /// From wat cell checker move (using in Undo)
+        /// </summary>
+        private Cell _fromCell;
+        /// <summary>
+        /// Default move constructor
+        /// </summary>
+        /// <param name="checker">Chacker thats moving</param>
+        /// <param name="toCell">Where checker move</param>
+        /// <param name="killed">What checkers will be killed</param>
         protected Move(Checker checker, Cell toCell, List<Checker> killed)
         {
-            Checker = checker;
-            this.toCell = toCell;
-            this.killed = killed;
+            this.Checker = checker;
+            this.ToCell = toCell;
+            this.Killed = killed;
+            this._fromCell = Checker.Cell;
         }
-
+        /// <summary>
+        /// Constructor of move without kills
+        /// </summary>
+        /// <param name="checker">Chacker thats moving</param>
+        /// <param name="toCell">Where checker move</param>
         protected Move(Checker checker, Cell toCell) : this(checker, toCell, null) { }
-
+        /// <summary>
+        /// Move checker for real
+        /// </summary>
         public void Do()
         {
             Checker.Cell.Clear();
             Checker.Unselect();
-            Checker.Cell = toCell;
+            Checker.Cell = ToCell;
             Checker.ClearMoves();
-            if (killed!=null)
-                foreach (Checker killedChecker in killed)
+            if (Killed!=null)
+                foreach (Checker killedChecker in Killed)
                     killedChecker.Kill();
             if(Game.CheckEndOfGame())
                 Game.EndGame();
             ComputeAllowedMoves();
             if (IsExistMoveWithKill())
                 ClearMovesWithoutCills();
-            Game.isWhite = !Game.isWhite;
-            if (toCell.Y == (Checker.MoveDir == MoveDirection.BottomTop ? 0 : 7))
+            Game.IsWhite = !Game.IsWhite;
+            if (ToCell.Y == (Checker.MoveDir == MoveDirection.BottomTop ? 0 : 7))
+            {
+                Checker.BeQueen();
+            }
+            GameDataHandler.AddMove(this);
+            Game.IncrimentIndex();
+        }
+
+        public void Redo()
+        {
+            Checker.Cell.Clear();
+            Game.Unselect();
+            Checker.Cell = ToCell;
+            Checker.ClearMoves();
+            if (Killed != null)
+                foreach (Checker killedChecker in Killed)
+                    killedChecker.Kill();
+            if (Game.CheckEndOfGame())
+                Game.EndGame();
+            ComputeAllowedMoves();
+            if (IsExistMoveWithKill())
+                ClearMovesWithoutCills();
+            Game.IsWhite = !Game.IsWhite;
+            if (ToCell.Y == ((Checker.MoveDir == MoveDirection.BottomTop) ? 0 : 7))
             {
                 Checker.BeQueen();
             }
         }
 
+        public void Undo()
+        {
+            Checker.Cell.Clear();
+            Game.Unselect();
+            Checker.Cell = _fromCell;
+            Checker.ClearMoves();
+            if (Killed != null)
+                foreach (Checker killedChecker in Killed)
+                    killedChecker.Resurect();
+            ComputeAllowedMoves();
+            if (IsExistMoveWithKill())
+                ClearMovesWithoutCills();
+            Game.IsWhite = !Game.IsWhite;
+            if (ToCell.Y == (Checker.MoveDir == MoveDirection.BottomTop ? 0 : 7))
+            {
+                Checker.UnBeQueen();
+            }
+        }
+        /// <summary>
+        /// Delete all moves withou kills
+        /// </summary>
         private void ClearMovesWithoutCills()
         {
-            if (! Game.isWhite)
+            if (! Game.IsWhite)
             {
-                foreach (Checker ch in GameDataHandler.chsWhite)
-                    for (int i = ch.allowedMoves.Count - 1; i >= 0; i--)
-                        if (ch.allowedMoves[i].killed == null)
-                            ch.allowedMoves.Remove(ch.allowedMoves[i]);
+                foreach (Checker ch in GameDataHandler.WhiteCheckers)
+                    for (int i = ch.AllowedMoves.Count - 1; i >= 0; i--)
+                        if (ch.AllowedMoves[i].Killed == null)
+                            ch.AllowedMoves.Remove(ch.AllowedMoves[i]);
             }
             else
             {
-                foreach (Checker ch in GameDataHandler.chsBlack)
-                    for (int i = ch.allowedMoves.Count - 1; i >= 0; i--)
-                        if (ch.allowedMoves[i].killed == null)
-                            ch.allowedMoves.Remove(ch.allowedMoves[i]);
+                foreach (Checker ch in GameDataHandler.BlackCheckers)
+                    for (int i = ch.AllowedMoves.Count - 1; i >= 0; i--)
+                        if (ch.AllowedMoves[i].Killed == null)
+                            ch.AllowedMoves.Remove(ch.AllowedMoves[i]);
             }
 
         }
-
+        /// <summary>
+        /// Ckeck if there is at least one move with kill
+        /// </summary>
+        /// <returns>True if yes, false if not</returns>
         private bool IsExistMoveWithKill()
         {
-            if (! Game.isWhite)
+            if (! Game.IsWhite)
             {
-                foreach (Checker ch in GameDataHandler.chsWhite)
-                    foreach (Move move in ch.allowedMoves)
-                        if (move.killed != null)
+                foreach (Checker ch in GameDataHandler.WhiteCheckers)
+                    foreach (Move move in ch.AllowedMoves)
+                        if (move.Killed != null)
                             return true;
             }
             else
             {
-                foreach (Checker ch in GameDataHandler.chsBlack)
-                    foreach (Move move in ch.allowedMoves)
-                        if (move.killed != null)
+                foreach (Checker ch in GameDataHandler.BlackCheckers)
+                    foreach (Move move in ch.AllowedMoves)
+                        if (move.Killed != null)
                             return true;
             }
             return false;
         }
+        /// <summary>
+        /// Compute allowed moves for all checkers
+        /// </summary>
         private void ComputeAllowedMoves()
         {
-            foreach (Checker ch in GameDataHandler.chsBlack)
+            foreach (Checker ch in GameDataHandler.BlackCheckers)
                 AllowedMovesCalculator.Calculate(ch);
-            foreach (Checker ch in GameDataHandler.chsWhite)
+            foreach (Checker ch in GameDataHandler.WhiteCheckers)
                 AllowedMovesCalculator.Calculate(ch);
         }
     }

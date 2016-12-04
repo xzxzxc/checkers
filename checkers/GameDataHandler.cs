@@ -10,9 +10,35 @@ namespace checkers
 {
     public struct GameDataHandler
     {
-        public static LinkedList<Move> previousMoves; // list of previous moves
-        public static List<WhiteChecker> chsWhite; // list of white checkers on table
-        public static List<BlackChecker> chsBlack; // list of black checkers on table
-        public static Checker selected = null; // current selected checker
+        /// <summary>
+        /// List of previous moves
+        /// </summary>
+        public static List<Move> PreviousMoves;
+        /// <summary>
+        /// Index of current move in previous moves list
+        /// </summary>
+        public static int CurrentMoveIndex;
+        /// <summary>
+        /// List of white checkers on table
+        /// </summary>
+        public static List<WhiteChecker> WhiteCheckers;
+        /// <summary>
+        /// List of black checkers on table
+        /// </summary>
+        public static List<BlackChecker> BlackCheckers;
+        /// <summary>
+        /// Current selected checker
+        /// </summary>
+        public static Checker Selected = null;
+
+        public static void AddMove(Move move)
+        {
+            if (CurrentMoveIndex != PreviousMoves.Count)
+            {
+                PreviousMoves.RemoveRange(CurrentMoveIndex, PreviousMoves.Count - CurrentMoveIndex);
+            }
+            PreviousMoves.Add(move);
+        }
+
     }
 }
