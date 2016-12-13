@@ -2,13 +2,13 @@ using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
-using checkers.Properties;
 using CheckersLibrary.Cells;
 using CheckersLibrary.GraphicalImplementation;
+using CheckersWindows.Properties;
 using CheckerColor = CheckersLibrary.Color;
 using SystemColor = System.Drawing.Color;
 
-namespace checkers.GraphicalImplementation
+namespace CheckersWindows.GraphicalImplementation
 {
     public class WhinowsCheckerImplementation : CheckerGraphicalImplementation
     {

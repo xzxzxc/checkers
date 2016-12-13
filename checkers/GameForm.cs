@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Windows.Forms;
-using checkers.GraphicalImplementation;
 using CheckersLibrary;
 using CheckersLibrary.GraphicalImplementation;
+using CheckersWindows.GraphicalImplementation;
 
-namespace checkers
+namespace CheckersWindows
 {
     public partial class GameForm : Form
     {

@@ -1,9 +1,9 @@
 ﻿using System.Drawing;
 using System.Windows.Forms;
-using checkers.GraphicalImplementation;
 using CheckersLibrary.Cells;
+using CheckersWindows.GraphicalImplementation;
 
-namespace checkers
+namespace CheckersWindows
 {
     partial class GameForm
     {

@@ -5,10 +5,9 @@ using System.Windows.Forms;
 using CheckersLibrary.Checkers;
 using CheckersLibrary.GraphicalImplementation;
 using CheckerColor = CheckersLibrary.Color;
-using SystemColor = System.Drawing.Color;
 
 
-namespace checkers.GraphicalImplementation
+namespace CheckersWindows.GraphicalImplementation
 {
     public class WindowsCellImplementation : CellGraphicalImplementation
     {

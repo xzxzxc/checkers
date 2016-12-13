@@ -7,8 +7,8 @@
     <ProjectGuid>{16BE2C2E-C13A-4BF6-AC96-12DB08937462}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>checkers</RootNamespace>
-    <AssemblyName>checkers</AssemblyName>
+    <RootNamespace>CheckersWindows</RootNamespace>
+    <AssemblyName>CheckersWindows</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>

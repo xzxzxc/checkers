@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace checkers
+namespace CheckersWindows
 {
     static class Program
     {
