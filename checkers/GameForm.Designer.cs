@@ -1,6 +1,7 @@
 ﻿using System.Drawing;
 using System.Windows.Forms;
-using checkers.Cells;
+using checkers.GraphicalImplementation;
+using CheckersLibrary.Cells;
 
 namespace checkers
 {
@@ -132,12 +133,27 @@ namespace checkers
             this._fieldBox.Size = new Size(600, 600);
             this.Controls.Add(this._fieldBox);
 
+            TableCells.Create(GenerateArrayCellImplementations());
+
             for (byte i = 0; i < 8; i++)
                 for (byte j = 0; j < 8; j++)
                     this._fieldBox.Controls.Add((PictureBox)TableCells.Cell[i, j].GetImage());
             
             this.ResumeLayout(false);
 
+        }
+
+        private WindowsCellImplementation[,] GenerateArrayCellImplementations()
+        {
+            WindowsCellImplementation[,] windowsCellImplementations = new WindowsCellImplementation[8, 8];
+            for (int i = 0; i < 8; i++)
+            {
+                for (int j = 0; j < 8; j++)
+                {
+                    windowsCellImplementations[i, j] = new WindowsCellImplementation();
+                }
+            }
+            return windowsCellImplementations;
         }
     }
 }

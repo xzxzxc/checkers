@@ -1,9 +1,7 @@
-﻿using System;
-using System.Runtime.CompilerServices;
-using System.Security.Policy;
-using checkers;
-using checkers.Cells;
-using checkers.Moves;
+﻿using CheckersLibrary;
+using CheckersLibrary.Cells;
+using CheckersLibrary.GraphicalImplementation;
+using CheckersLibrary.Moves;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace CheckersTest
@@ -11,12 +9,25 @@ namespace CheckersTest
     [TestClass]
     public class UnitTest1
     {
-        
+        private CellGraphicalImplementation[,] GenerateArrayCellImplementations()
+        {
+            CellGraphicalImplementation[,] testCellImplementations = new CellGraphicalImplementation[8, 8];
+            for (int i = 0; i < 8; i++)
+            {
+                for (int j = 0; j < 8; j++)
+                {
+                    testCellImplementations[i, j] = new TestCellImplementation();
+                }
+            }
+            return testCellImplementations;
+        }
+
         [TestMethod]
         public void TestWhiteSimpleGo()
         {
             int[][] whiteChs = new int[1][];
             whiteChs[0] = new[] {3, 3};
+            TableCells.Create(GenerateArrayCellImplementations());
             Game.StartTestlGame(whiteChs, new int[0][]);
             int counter = 0;
             foreach (Move move in GameDataHandler.WhiteCheckers[0].AllowedMoves)
@@ -26,7 +37,7 @@ namespace CheckersTest
                 if (move.ToCell == TableCells.Cell[4, 2])
                     counter++;
             }
-            Game.EndGame();
+            Game.Clear();
             Assert.AreEqual(counter, 2);
         }
         [TestMethod]
@@ -37,6 +48,7 @@ namespace CheckersTest
             int[][] blackChs = new int[2][];
             blackChs[0] = new[] { 2, 2 };
             blackChs[1] = new[] { 4, 2 };
+            TableCells.Create(GenerateArrayCellImplementations());
             Game.StartTestlGame(whiteChs, blackChs);
             int counter = 0;
             foreach (Move move in GameDataHandler.WhiteCheckers[0].AllowedMoves)
@@ -48,7 +60,7 @@ namespace CheckersTest
                     if (move.Killed.Contains(TableCells.Cell[4, 2].Checker))
                         counter++;
             }
-            Game.EndGame();
+            Game.Clear();
             Assert.AreEqual(counter, 2);
         }
         [TestMethod]
@@ -59,6 +71,7 @@ namespace CheckersTest
             int[][] blackChs = new int[2][];
             blackChs[0] = new[] { 4, 4 };
             blackChs[1] = new[] { 2, 4 };
+            TableCells.Create(GenerateArrayCellImplementations());
             Game.StartTestlGame(whiteChs, blackChs);
             int counter = 0;
             foreach (Move move in GameDataHandler.WhiteCheckers[0].AllowedMoves)
@@ -70,7 +83,7 @@ namespace CheckersTest
                     if (move.Killed.Contains(TableCells.Cell[2, 4].Checker))
                         counter++;
             }
-            Game.EndGame();
+            Game.Clear();
             Assert.AreEqual(counter, 2);
         }
         [TestMethod]
@@ -81,6 +94,7 @@ namespace CheckersTest
             int[][] blackChs = new int[2][];
             blackChs[0] = new[] { 3, 3 };
             blackChs[1] = new[] { 1, 1 };
+            TableCells.Create(GenerateArrayCellImplementations());
             Game.StartTestlGame(whiteChs, blackChs);
             int counter = 0;
             foreach (Move move in GameDataHandler.WhiteCheckers[0].AllowedMoves)
@@ -92,7 +106,7 @@ namespace CheckersTest
                     if (move.Killed.Contains(TableCells.Cell[1, 1].Checker))
                         counter++;
             }
-            Game.EndGame();
+            Game.Clear();
             Assert.AreEqual(counter, 2);
         }
         [TestMethod]
@@ -104,6 +118,7 @@ namespace CheckersTest
             blackChs[0] = new[] { 3, 3 };
             blackChs[1] = new[] { 1, 1 };
             blackChs[2] = new[] { 5, 5 };
+            TableCells.Create(GenerateArrayCellImplementations());
             Game.StartTestlGame(whiteChs, blackChs);
             int counter = 0;
             foreach (Move move in GameDataHandler.WhiteCheckers[0].AllowedMoves)
@@ -118,7 +133,7 @@ namespace CheckersTest
                     if (move.Killed.Contains(TableCells.Cell[5, 5].Checker))
                         counter++;
             }
-            Game.EndGame();
+            Game.Clear();
             Assert.AreEqual(counter, 3);
         }
         [TestMethod]
@@ -126,6 +141,7 @@ namespace CheckersTest
         {
             int[][] whiteChs = new int[1][];
             whiteChs[0] = new[] { 4, 4 };
+            TableCells.Create(GenerateArrayCellImplementations());
             Game.StartTestlGame(new int[0][], new int[0][], whiteChs);
             int counter = 0;
             foreach (Move move in GameDataHandler.WhiteCheckers[0].AllowedMoves)
@@ -135,7 +151,7 @@ namespace CheckersTest
                 if (move.ToCell == TableCells.Cell[6, 2])
                     counter++;
             }
-            Game.EndGame();
+            Game.Clear();
             Assert.AreEqual(counter, 2);
         }
         [TestMethod]
@@ -145,6 +161,7 @@ namespace CheckersTest
             whiteChs[0] = new[] { 6, 6 };
             int[][] blackChs = new int[1][];
             blackChs[0] = new[] { 4, 4 };
+            TableCells.Create(GenerateArrayCellImplementations());
             Game.StartTestlGame(new int[0][], blackChs, whiteChs);
             int counter = 0;
             foreach (Move move in GameDataHandler.WhiteCheckers[0].AllowedMoves)
@@ -153,7 +170,7 @@ namespace CheckersTest
                     if (move.Killed.Contains(TableCells.Cell[4, 4].Checker))
                         counter++;
             }
-            Game.EndGame();
+            Game.Clear();
             Assert.AreEqual(counter, 1);
         }
         [TestMethod]
@@ -164,6 +181,7 @@ namespace CheckersTest
             int[][] blackChs = new int[2][];
             blackChs[0] = new[] { 4, 4 };
             blackChs[1] = new[] { 5, 1 };
+            TableCells.Create(GenerateArrayCellImplementations());
             Game.StartTestlGame(new int[0][], blackChs, whiteChs);
             int counter = 0;
             foreach (Move move in GameDataHandler.WhiteCheckers[0].AllowedMoves)
@@ -173,7 +191,7 @@ namespace CheckersTest
                         if(move.Killed.Contains(TableCells.Cell[4, 4].Checker))
                             counter++;
             }
-            Game.EndGame();
+            Game.Clear();
             Assert.AreEqual(counter, 1);
         }
         [TestMethod]
@@ -185,6 +203,7 @@ namespace CheckersTest
             blackChs[0] = new[] { 1, 4 };
             blackChs[1] = new[] { 2, 1 };
             blackChs[2] = new[] { 5, 2 };
+            TableCells.Create(GenerateArrayCellImplementations());
             Game.StartTestlGame(new int[0][], blackChs, whiteChs);
             int counter = 0;
             foreach (Move move in GameDataHandler.WhiteCheckers[0].AllowedMoves)
@@ -195,7 +214,7 @@ namespace CheckersTest
                             if (move.Killed.Contains(TableCells.Cell[5, 2].Checker))
                                 counter++;
             }
-            Game.EndGame();
+            Game.Clear();
             Assert.AreEqual(counter, 1);
         }
         [TestMethod]
@@ -203,6 +222,7 @@ namespace CheckersTest
         {
             int[][] blackChs = new int[1][];
             blackChs[0] = new[] { 3, 3 };
+            TableCells.Create(GenerateArrayCellImplementations());
             Game.StartTestlGame(new int[0][], blackChs, isWhite:false);
             int counter = 0;
             foreach (Move move in GameDataHandler.BlackCheckers[0].AllowedMoves)
@@ -212,7 +232,7 @@ namespace CheckersTest
                 if ( move.ToCell == TableCells.Cell[2, 4])
                     counter++;
             }
-            Game.EndGame();
+            Game.Clear();
             Assert.AreEqual(counter, 2);
         }
         [TestMethod]
@@ -223,6 +243,7 @@ namespace CheckersTest
             int[][] whiteChs = new int[2][];
             whiteChs[0] = new[] { 4, 4 };
             whiteChs[1] = new[] { 2, 4 };
+            TableCells.Create(GenerateArrayCellImplementations());
             Game.StartTestlGame(whiteChs, blackChs, isWhite:false);
             int counter = 0;
             foreach (Move move in GameDataHandler.BlackCheckers[0].AllowedMoves)
@@ -234,7 +255,7 @@ namespace CheckersTest
                     if (move.Killed.Contains(TableCells.Cell[2, 4].Checker))
                         counter++;
             }
-            Game.EndGame();
+            Game.Clear();
             Assert.AreEqual(counter, 2);
         }
         

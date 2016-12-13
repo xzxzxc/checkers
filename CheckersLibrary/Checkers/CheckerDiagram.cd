@@ -1,0 +1,97 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="CheckersLibrary.Checkers.BlackChecker">
+    <Position X="7" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Checkers\BlackChecker.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CheckersLibrary.Checkers.Checker">
+    <Position X="9" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAAUEABAOAkBgCQAABAAQAQIAQCgDACEAAAQABIAgQ=</HashCode>
+      <FileName>Checkers\Checker.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="CheckerGraphicalImplementation" />
+      <Property Name="MoveDirection" />
+      <Property Name="CheckerImpl" />
+      <Property Name="Cell" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Property Name="AllowedMoves" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="CheckersLibrary.Checkers.WhiteChecker">
+    <Position X="11.25" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Checkers\WhiteChecker.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CheckersLibrary.Checkers.Implementations.CheckerImpl">
+    <Position X="4" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAAUGABACAkAAAAAABAAQAQIAQAABACAAAAAABAAAQ=</HashCode>
+      <FileName>Checkers\Implementations\CheckerImpl.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CheckersLibrary.Checkers.Implementations.QueenChImpl" Collapsed="true">
+    <Position X="2" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAAUEABACAkAAAAAAAAAQAQIAQAABAAAAAAAABAAAQ=</HashCode>
+      <FileName>Checkers\Implementations\QueenChImpl.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CheckersLibrary.Checkers.Implementations.SimpleChImpl" Collapsed="true">
+    <Position X="2" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAAUEABACAkAAAAAAAAAQAQIAQAABAAAAAAAABAAAQ=</HashCode>
+      <FileName>Checkers\Implementations\SimpleChImpl.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CheckersLibrary.GraphicalImplementation.CellGraphicalImplementation">
+    <Position X="17.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAEAAAAAIgAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>GraphicalImplementation\CellGraphicalImplementation.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CheckersLibrary.GraphicalImplementation.CheckerGraphicalImplementation">
+    <Position X="13" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAgAAAAAAAAAAAAAAACAIAAAAAAAAAAA=</HashCode>
+      <FileName>GraphicalImplementation\CheckerGraphicalImplementation.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CheckersLibrary.GraphicalImplementation.SpriteGraphicalImplemantation">
+    <Position X="15.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAAAAAAAAAAAAAAAABAAAAQAAAAAAAAAAAAAAAAAgA=</HashCode>
+      <FileName>GraphicalImplementation\SpriteGraphicalImplemantation.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CheckersLibrary.Moves.Move" Collapsed="true">
+    <Position X="12.5" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAABAAABAAAAAAgAAABCAAAAEQAQAAgAAAAAAA=</HashCode>
+      <FileName>Moves\Move.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CheckersLibrary.Cells.Cell" Collapsed="true">
+    <Position X="12.5" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CEAAAAAACAAQAgAAAAAgAAAQAAAAgAAAAAAAAABAYgA=</HashCode>
+      <FileName>Cells\Cell.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Enum Name="CheckersLibrary.Moves.MoveDirection">
+    <Position X="6" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAgAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Moves\MoveDirection.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

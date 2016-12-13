@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="CheckersLibrary.Cells.Cell">
+    <Position X="1.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CEAAAAAACAAQAgAAAAAgAAAQAAAAgAAAAAAAAABAYgA=</HashCode>
+      <FileName>Cells\Cell.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_graphicalImpl" />
+      <Property Name="Checker" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="CheckersLibrary.Cells.CellManager">
+    <Position X="4" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAACAIAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Cells\TableCells.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Field Name="Cells" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="CheckersLibrary.Cells.TableCells">
+    <Position X="6.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAgAAAABAAAAAAAAAAEAAAAAAAABAAAA=</HashCode>
+      <FileName>Cells\TableCells.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Cell" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="CheckersLibrary.Checkers.Checker" Collapsed="true">
+    <Position X="4" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAAUEABAOAkBgCQAABAAQAQIAQCgDACEAAAQABIAgQ=</HashCode>
+      <FileName>Checkers\Checker.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CheckersLibrary.GraphicalImplementation.CellGraphicalImplementation">
+    <Position X="4.5" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAEAAAAAIgAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>GraphicalImplementation\CellGraphicalImplementation.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

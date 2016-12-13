@@ -1,0 +1,64 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="CheckersLibrary.Moves.Move">
+    <Position X="6.25" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAABAAABAAAAAAgAAABCAAAAEQAQAAgAAAAAAA=</HashCode>
+      <FileName>Moves\Move.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="ToCell" />
+      <Property Name="Checker" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="CheckersLibrary.Moves.MoveBackwardLeft" Collapsed="true">
+    <Position X="4" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Moves\MoveBackwardLeft.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CheckersLibrary.Moves.MoveBackwardRight" Collapsed="true">
+    <Position X="8.5" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Moves\MoveBackwardRight.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CheckersLibrary.Moves.MoveForwardLeft" Collapsed="true">
+    <Position X="4" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Moves\MoveForwardLeft.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CheckersLibrary.Moves.MoveForwardRight" Collapsed="true">
+    <Position X="8.5" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Moves\MoveForwardRight.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CheckersLibrary.Checkers.Checker" Collapsed="true">
+    <Position X="7.25" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAAUEABAOAkBgCQAABAAQAQIAQCgDACEAAAQABIAgQ=</HashCode>
+      <FileName>Checkers\Checker.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CheckersLibrary.Cells.Cell" Collapsed="true">
+    <Position X="5.25" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CEAAAAAACAAQAgAAAAAgAAAQAAAAgAAAAAAAAABAYgA=</HashCode>
+      <FileName>Cells\Cell.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Enum Name="CheckersLibrary.Moves.MoveDirection">
+    <Position X="0.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAgAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Moves\MoveDirection.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

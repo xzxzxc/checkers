@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="CheckersLibrary.GraphicalImplementation.SpriteGraphicalImplemantation">
+    <Position X="3.5" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAAAAAAAAAAAAAAAABAAAAQAAAAAAAAAAAAAAAAAgA=</HashCode>
+      <FileName>GraphicalImplementation\SpriteGraphicalImplemantation.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CheckersLibrary.GraphicalImplementation.CheckerGraphicalImplementation">
+    <Position X="1.5" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAgAAAAAAAAAAAAAAACAIAAAAAAAAAAA=</HashCode>
+      <FileName>GraphicalImplementation\CheckerGraphicalImplementation.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CheckersLibrary.GraphicalImplementation.CellGraphicalImplementation">
+    <Position X="5.5" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAEAAAAAIgAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>GraphicalImplementation\CellGraphicalImplementation.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

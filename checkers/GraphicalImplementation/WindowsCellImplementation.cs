@@ -2,21 +2,23 @@ using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
-using checkers.Checkers;
+using CheckersLibrary.Checkers;
+using CheckersLibrary.GraphicalImplementation;
+using CheckerColor = CheckersLibrary.Color;
+using SystemColor = System.Drawing.Color;
+
 
 namespace checkers.GraphicalImplementation
 {
     public class WindowsCellImplementation : CellGraphicalImplementation
     {
         private readonly PictureBox _cellBox; // image of cell for windows form
-        private readonly int _x;  // x location in windows form
-        private readonly int _y;  // y location in windows form
+        // private readonly int _x;  // x location in windows form
+        // private readonly int _y;  // y location in windows form
 
         private void InitializeCellBox()
         {
             ((ISupportInitialize)(_cellBox)).BeginInit();
-            _cellBox.BackColor = _y % 2 + _x % 2 == 1 ? Color.Gray : Color.White;
-            _cellBox.Location = new Point(_x*75, _y*75);
             _cellBox.Name = "cellBox";
             _cellBox.Size = new Size(75, 75);
             _cellBox.SizeMode = PictureBoxSizeMode.Zoom;
@@ -26,36 +28,40 @@ namespace checkers.GraphicalImplementation
             ((ISupportInitialize)(_cellBox)).EndInit();
         }
 
-        public WindowsCellImplementation(int x, int y)
+        public WindowsCellImplementation()
         {
             _cellBox = new PictureBox();
-            _x = x;
-            _y = y;
-        }
-        public override void Draw()
-        {
             InitializeCellBox();
+        }
+        public override void Draw(int x, int y)
+        {
+            _cellBox.BackColor = y % 2 + x % 2 == 1 ? Color.Gray : Color.White;
+            _cellBox.Location = new Point(x*75, y*75);
         }
 
         public override void RemoveChecker()
         {
-            if (_checker != null)
-            {
-                _cellBox.Controls.Remove((PictureBox) _checker.GetImage());
-                _checker = null;
-            }
+            var checkerBox = _cellBox.Controls[0] as PictureBox;
+            if (checkerBox != null) _cellBox.Controls.Remove(checkerBox);
         }
 
-        public override void ChancheBgColor(Color color)
+        public override void ChancheBgColor(CheckerColor color)
         {
-            _cellBox.BackColor = color;
+            switch (color)
+            {
+                case CheckerColor.BlueViolet:
+                    _cellBox.BackColor = Color.BlueViolet;
+                    break;
+                case CheckerColor.Gray:
+                    _cellBox.BackColor = Color.Gray;
+                    break;
+                default:
+                    throw new ArgumentException("Unknown color");
+            }
         }
 
         public override void AddChecker(Checker checker)
         {
-            if (_checker != null)
-                throw new AccessViolationException("Cell already contains checker");
-            _checker = checker;
             _cellBox.Controls.Add((PictureBox)checker.GetImage());
         }
         public override Object GetImage()

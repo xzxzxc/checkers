@@ -2,9 +2,11 @@ using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
-using checkers.Cells;
-using checkers.Checkers;
 using checkers.Properties;
+using CheckersLibrary.Cells;
+using CheckersLibrary.GraphicalImplementation;
+using CheckerColor = CheckersLibrary.Color;
+using SystemColor = System.Drawing.Color;
 
 namespace checkers.GraphicalImplementation
 {
@@ -32,21 +34,31 @@ namespace checkers.GraphicalImplementation
             set { _checkerBox.Visible = value; }
         }
 
-        public WhinowsCheckerImplementation(Cell cell)
+        public WhinowsCheckerImplementation()
         {
             _checkerBox = new PictureBox();
-            InitializeChBox(cell);
+            InitializeChBox();
         }
 
-        public override void ChancheBgColor(Color color)
+        public override void ChancheBgColor(CheckerColor color)
         {
-            _checkerBox.BackColor = color;
+            switch (color)
+            {
+                case CheckerColor.Khaki:
+                    _checkerBox.BackColor = Color.Khaki;
+                    break;
+                case CheckerColor.Transparent:
+                    _checkerBox.BackColor = Color.Transparent;
+                    break;
+                default:
+                    throw new ArgumentException("Unknown color");
+            }
         }
 
-        private void InitializeChBox(Cell cell)
+        private void InitializeChBox()
         {
             ((ISupportInitialize)(_checkerBox)).BeginInit();
-            _checkerBox.BackColor = Color.Transparent;
+            _checkerBox.BackColor = SystemColor.Transparent;
             _checkerBox.Location = new Point(0, 0);
             _checkerBox.Name = "chBox";
             _checkerBox.Size = new Size(75, 75);
@@ -54,18 +66,19 @@ namespace checkers.GraphicalImplementation
             _checkerBox.TabIndex = 1;
             _checkerBox.TabStop = false;
             _checkerBox.Click += Click;
-            (cell.GetImage() as PictureBox).Controls.Add(_checkerBox);
             ((ISupportInitialize)(_checkerBox)).EndInit();
         }
 
-        public override void Draw(Color checkerColor)
+        public override void Draw(CheckerColor checkerColor, Cell cell)
         {
-            if (checkerColor == Color.Black)
+            var pictureBox = cell.GetImage() as PictureBox;
+            pictureBox?.Controls.Add(_checkerBox);
+            if (checkerColor == CheckerColor.Black)
             {
                 _checkerBox.Image = Resources.black_checker;
                 _checkerBox.Image.Tag = "black";
             }
-            if (checkerColor == Color.White)
+            if (checkerColor == CheckerColor.White)
             {
                 _checkerBox.Image = Resources.white_checker;
                 _checkerBox.Image.Tag = "white";

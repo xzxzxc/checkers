@@ -25,6 +25,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -50,13 +51,14 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="TestCellImplementation.cs" />
     <Compile Include="UnitTest1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\checkers\checkers.csproj">
-      <Project>{16be2c2e-c13a-4bf6-ac96-12db08937462}</Project>
-      <Name>checkers</Name>
+    <ProjectReference Include="..\CheckersLibrary\CheckersLibrary.csproj">
+      <Project>{9563036d-adee-469f-ae4f-3d48e89bb325}</Project>
+      <Name>CheckersLibrary</Name>
     </ProjectReference>
   </ItemGroup>
   <Choose>

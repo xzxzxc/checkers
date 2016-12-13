@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="CheckersLibrary.AllowedMovesCalculator.AllowedMovesCalculator">
+    <Position X="3.75" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAICAAAAQAAAAAAAACAACgAIAAgAAABAAAAACg=</HashCode>
+      <FileName>AllowedMovesCalculator\AllowedMovesCalculator.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_previousMove" />
+      <Field Name="_checker" />
+      <Field Name="_primaryCell" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="CheckersLibrary.Moves.Move" Collapsed="true">
+    <Position X="7.25" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAABAAABAAAAAAgAAABCAAAAEQAQAAgAAAAAAA=</HashCode>
+      <FileName>Moves\Move.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CheckersLibrary.Checkers.Checker" Collapsed="true">
+    <Position X="7.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAAUEABAOAkBgCQAABAAQAQIAQCgDACEAAAQABIAgQ=</HashCode>
+      <FileName>Checkers\Checker.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CheckersLibrary.Cells.Cell" Collapsed="true">
+    <Position X="7.25" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CEAAAAAACAAQAgAAAAAgAAAQAAAAgAAAAAAAAABAYgA=</HashCode>
+      <FileName>Cells\Cell.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
