@@ -34,7 +34,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="AI\ArtificialIntelligence.cs" />
     <Compile Include="AllowedMovesCalculator\AllowedMovesCalculator.cs" />
+    <Compile Include="AllowedMovesCalculator\Node.cs" />
     <Compile Include="Cells\Cell.cs" />
     <Compile Include="Cells\TableCells.cs" />
     <Compile Include="Checkers\BlackChecker.cs" />
@@ -42,6 +44,7 @@
     <Compile Include="Checkers\Implementations\CheckerImpl.cs" />
     <Compile Include="Checkers\Implementations\QueenChImpl.cs" />
     <Compile Include="Checkers\Implementations\SimpleChImpl.cs" />
+    <Compile Include="Checkers\MoveDirection.cs" />
     <Compile Include="Checkers\WhiteChecker.cs" />
     <Compile Include="Color.cs" />
     <Compile Include="Game.cs" />
@@ -50,11 +53,7 @@
     <Compile Include="GraphicalImplementation\CheckerGraphicalImplementation.cs" />
     <Compile Include="GraphicalImplementation\SpriteGraphicalImplemantation.cs" />
     <Compile Include="Moves\Move.cs" />
-    <Compile Include="Moves\MoveBackwardLeft.cs" />
-    <Compile Include="Moves\MoveBackwardRight.cs" />
-    <Compile Include="Moves\MoveDirection.cs" />
-    <Compile Include="Moves\MoveForwardLeft.cs" />
-    <Compile Include="Moves\MoveForwardRight.cs" />
+    <Compile Include="Moves\PlayerMoveDirection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -65,6 +64,7 @@
     <None Include="GraphicalImplementation\GraphicalImplementationDiagram.cd" />
     <None Include="Moves\MoveDiagram.cd" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

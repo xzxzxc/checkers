@@ -6,7 +6,7 @@ namespace CheckersLibrary.Checkers
 {
     public class WhiteChecker : Checker
     {
-        public WhiteChecker(Cell cell, MoveDirection moveDirection, CheckerGraphicalImplementation checkerGraphical) : base(cell, moveDirection, checkerGraphical)
+        public WhiteChecker(Cell cell, PlayerMoveDirection playerMoveDirection, CheckerGraphicalImplementation checkerGraphical) : base(cell, playerMoveDirection, checkerGraphical)
         {
             Draw(Color.White, cell);
         }

@@ -20,15 +20,6 @@ namespace CheckersLibrary.GraphicalImplementation
         public abstract void AddChecker(Checker checker);
 
         /// <summary>
-        /// Current cell checker
-        /// </summary>
-        //protected Checker _checker;
-        /// <summary>
-        /// Get checker
-        /// </summary>
-        //public Checker Checker => _checker;
-
-        /// <summary>
         /// Draw cell in window
         /// </summary>
         public abstract void Draw(int x, int y);

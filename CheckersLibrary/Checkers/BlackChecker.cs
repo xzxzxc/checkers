@@ -6,7 +6,7 @@ namespace CheckersLibrary.Checkers
 {
     public class BlackChecker : Checker
     {
-        public BlackChecker(Cell cell, MoveDirection moveDirection, CheckerGraphicalImplementation checkerGraphical) : base(cell, moveDirection, checkerGraphical)
+        public BlackChecker(Cell cell, PlayerMoveDirection playerMoveDirection, CheckerGraphicalImplementation checkerGraphical) : base(cell, playerMoveDirection, checkerGraphical)
         {
             Draw(Color.Black, cell);
         }

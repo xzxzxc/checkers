@@ -9,7 +9,7 @@ namespace CheckersLibrary.Checkers.Implementations
     public class QueenChImpl : CheckerImpl
     {
 
-        public QueenChImpl(MoveDirection moveDir) : base(moveDir) { }
+        public QueenChImpl(PlayerMoveDirection playerMoveDir) : base(playerMoveDir) { }
 
         public override bool CheckForwardLeft()
         {
@@ -56,7 +56,7 @@ namespace CheckersLibrary.Checkers.Implementations
             {
                 if (!TableCells.Cell[i, j].IsClear())
                 {
-                    if (TableCells.Cell[i, j].Checker.MoveDirection != MoveDir)
+                    if (TableCells.Cell[i, j].Checker.PlayerMoveDirection != PlayerMoveDir)
                     {
                         if (TableCells.Cell[i - 1, j - 1].IsClear())
                         {
@@ -79,7 +79,7 @@ namespace CheckersLibrary.Checkers.Implementations
             {
                 if (!TableCells.Cell[i, j].IsClear())
                 {
-                    if (TableCells.Cell[i, j].Checker.MoveDirection != MoveDir)
+                    if (TableCells.Cell[i, j].Checker.PlayerMoveDirection != PlayerMoveDir)
                     {
                         if (TableCells.Cell[i + 1, j - 1].IsClear())
                         {
@@ -102,7 +102,7 @@ namespace CheckersLibrary.Checkers.Implementations
             {
                 if (!TableCells.Cell[i, j].IsClear())
                 {
-                    if (TableCells.Cell[i, j].Checker.MoveDirection != MoveDir)
+                    if (TableCells.Cell[i, j].Checker.PlayerMoveDirection != PlayerMoveDir)
                     {
                         if (TableCells.Cell[i - 1, j + 1].IsClear())
                         {
@@ -125,7 +125,7 @@ namespace CheckersLibrary.Checkers.Implementations
             {
                 if (!TableCells.Cell[i, j].IsClear())
                 {
-                    if (TableCells.Cell[i, j].Checker.MoveDirection != MoveDir)
+                    if (TableCells.Cell[i, j].Checker.PlayerMoveDirection != PlayerMoveDir)
                     {
                         if (TableCells.Cell[i + 1, j + 1].IsClear())
                         {
@@ -220,7 +220,7 @@ namespace CheckersLibrary.Checkers.Implementations
             for (int i = Cell.X - 1, j = Cell.Y - 1; i >= 0 && j >= 0; i--, j--)
             {
                 if (TableCells.Cell[i, j].IsClear())
-                    AllowedMoves.Add(new MoveForwardLeft(checker, TableCells.Cell[i, j]));
+                    AllowedMoves.Add(new Move(checker, TableCells.Cell[i, j]));
                 else
                     break;
             }
@@ -231,7 +231,7 @@ namespace CheckersLibrary.Checkers.Implementations
             for (int i = Cell.X + 1, j = Cell.Y - 1; i < 8 && j >= 0; i++, j--)
             {
                 if (TableCells.Cell[i, j].IsClear())
-                    AllowedMoves.Add(new MoveForwardRight(checker, TableCells.Cell[i, j]));
+                    AllowedMoves.Add(new Move(checker, TableCells.Cell[i, j]));
                 else
                     break;
             }
@@ -242,7 +242,7 @@ namespace CheckersLibrary.Checkers.Implementations
             for (int i = Cell.X - 1, j = Cell.Y + 1; i >= 0 && j < 8; i--, j++)
             {
                 if (TableCells.Cell[i, j].IsClear())
-                    AllowedMoves.Add(new MoveBackwardLeft(checker, TableCells.Cell[i, j]));
+                    AllowedMoves.Add(new Move(checker, TableCells.Cell[i, j]));
                 else
                     break;
             }
@@ -253,20 +253,20 @@ namespace CheckersLibrary.Checkers.Implementations
             for (int i = Cell.X + 1, j = Cell.Y + 1; i < 8 && j < 8; i++, j++)
             {
                 if (TableCells.Cell[i, j].IsClear())
-                    AllowedMoves.Add(new MoveBackwardRight(checker, TableCells.Cell[i, j]));
+                    AllowedMoves.Add(new Move(checker, TableCells.Cell[i, j]));
                 else
                     break;
             }
         }
 
-        public override void AddMoveForwardLeft(Checker checker, List<Checker> killed, out Move move)
+        public override void AddMoveForwardLeft(Checker checker, Checker[] killed, out Move move)
         {
             move = null;
             for (int i = killed.Last().Cell.X - 1, j = killed.Last().Cell.Y - 1; i >= 0 && j >= 0; i--, j--)
             {
                 if (TableCells.Cell[i, j].IsClear())
                 {
-                    move = new MoveForwardLeft(checker, TableCells.Cell[i, j], killed);
+                    move = new Move(checker, TableCells.Cell[i, j], killed);
                     AllowedMoves.Add(move);
                 }
                 else
@@ -274,14 +274,14 @@ namespace CheckersLibrary.Checkers.Implementations
             }
         }
 
-        public override void AddMoveForwardRight(Checker checker, List<Checker> killed, out Move move)
+        public override void AddMoveForwardRight(Checker checker, Checker[] killed, out Move move)
         {
             move = null;
             for (int i = killed.Last().Cell.X + 1, j = killed.Last().Cell.Y - 1; i < 8 && j >= 0; i++, j--)
             {
                 if (TableCells.Cell[i, j].IsClear())
                 {
-                    move = new MoveForwardRight(checker, TableCells.Cell[i, j], killed);
+                    move = new Move(checker, TableCells.Cell[i, j], killed);
                     AllowedMoves.Add(move);
                 }
                 else
@@ -289,14 +289,14 @@ namespace CheckersLibrary.Checkers.Implementations
             }
         }
 
-        public override void AddMoveBackwardLeft(Checker checker, List<Checker> killed, out Move move)
+        public override void AddMoveBackwardLeft(Checker checker, Checker[] killed, out Move move)
         {
             move = null;
             for (int i = killed.Last().Cell.X - 1, j = killed.Last().Cell.Y + 1; i >= 0 && j < 8; i--, j++)
             {
                 if (TableCells.Cell[i, j].IsClear())
                 {
-                    move = new MoveBackwardLeft(checker, TableCells.Cell[i, j], killed);
+                    move = new Move(checker, TableCells.Cell[i, j], killed);
                     AllowedMoves.Add(move);
                 }
                 else
@@ -304,14 +304,14 @@ namespace CheckersLibrary.Checkers.Implementations
             }
         }
 
-        public override void AddMoveBackwardRight(Checker checker, List<Checker> killed, out Move move)
+        public override void AddMoveBackwardRight(Checker checker, Checker[] killed, out Move move)
         {
             move = null;
             for (int i = killed.Last().Cell.X + 1, j = killed.Last().Cell.Y + 1; i < 8 && j < 8; i++, j++)
             {
                 if (TableCells.Cell[i, j].IsClear())
                 {
-                    move = new MoveBackwardRight(checker, TableCells.Cell[i, j], killed);
+                    move = new Move(checker, TableCells.Cell[i, j], killed);
                     AllowedMoves.Add(move);
                 }
                 else

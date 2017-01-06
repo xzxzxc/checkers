@@ -3,7 +3,7 @@
     public enum Color
     {
         Black,
-        White,
+        White=~Black,
         Khaki,
         BlueViolet,
         Transparent,

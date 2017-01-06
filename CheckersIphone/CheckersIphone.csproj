@@ -124,9 +124,9 @@
     <None Include="Images\black_checker.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\checkers\CheckersWindows.csproj">
-      <Project>{16be2c2e-c13a-4bf6-ac96-12db08937462}</Project>
-      <Name>CheckersWindows</Name>
+    <ProjectReference Include="..\CheckersLibrary\CheckersLibrary.csproj">
+      <Project>{9563036D-ADEE-469F-AE4F-3D48E89BB325}</Project>
+      <Name>CheckersLibrary</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />

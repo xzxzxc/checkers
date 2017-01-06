@@ -34,6 +34,7 @@ namespace CheckersLibrary
                 PreviousMoves.RemoveRange(CurrentMoveIndex, PreviousMoves.Count - CurrentMoveIndex);
             }
             PreviousMoves.Add(move);
+            Game.IncrimentIndex();
         }
 
     }

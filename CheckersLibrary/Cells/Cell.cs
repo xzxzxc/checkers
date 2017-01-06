@@ -53,11 +53,13 @@ namespace CheckersLibrary.Cells
         {
            Click?.Invoke();
         }
+
         /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="x">Cell x coordinate on table</param>
         /// <param name="y">Cell y coordinate on table</param>
+        /// <param name="cellGraphicalImplementation"></param>
         public Cell(byte x, byte y, CellGraphicalImplementation cellGraphicalImplementation)
         {
             _graphicalImpl = cellGraphicalImplementation;
@@ -103,6 +105,11 @@ namespace CheckersLibrary.Cells
         public void Draw(int x, int y)
         {
             _graphicalImpl.Draw(x, y);
+        }
+
+        public override string ToString()
+        {
+            return $"X: {X} Y:{Y}";
         }
     }
 

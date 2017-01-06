@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using CheckersLibrary.AI;
 using CheckersLibrary.Cells;
 using CheckersLibrary.Checkers;
 
@@ -7,12 +8,12 @@ namespace CheckersLibrary.Moves
     /// <summary>
     /// Class for controling possible moves
     /// </summary>
-    public abstract class Move
+    public class Move
     {
         /// <summary>
         /// Chacker thats moving
         /// </summary>
-        public Checker Checker { get; }
+        private Checker Checker { get; }
         /// <summary>
         /// Where checker move
         /// </summary>
@@ -20,37 +21,45 @@ namespace CheckersLibrary.Moves
         /// <summary>
         /// What checkers will be killed
         /// </summary>
-        public List<Checker> Killed;
+        public Checker[] Killed;
         /// <summary>
         /// From wat cell checker move (using in Undo)
         /// </summary>
         private Cell _fromCell;
+        /// <summary>
+        /// If true, after move, checker would be queen
+        /// </summary>
+        public bool SetQueen;
+
         /// <summary>
         /// Default move constructor
         /// </summary>
         /// <param name="checker">Chacker thats moving</param>
         /// <param name="toCell">Where checker move</param>
         /// <param name="killed">What checkers will be killed</param>
-        protected Move(Checker checker, Cell toCell, List<Checker> killed)
+        public Move(Checker checker, Cell toCell, Checker[] killed = null)
         {
             Checker = checker;
             ToCell = toCell;
             Killed = killed;
+            SetQueen = false;
             _fromCell = Checker.Cell;
+            if (ToCell.Y == (Checker.PlayerMoveDirection == PlayerMoveDirection.BottomTop ? 0 : 7))
+                SetQueen = true;
         }
-        /// <summary>
-        /// Constructor of move without kills
-        /// </summary>
-        /// <param name="checker">Chacker thats moving</param>
-        /// <param name="toCell">Where checker move</param>
-        protected Move(Checker checker, Cell toCell) : this(checker, toCell, null) { }
+
+        public void AddSelfToGameMoveList()
+        {
+            GameDataHandler.AddMove(this);
+        }
+
         /// <summary>
         /// Move checker for real
         /// </summary>
         public void Do()
         {
             Checker.Cell.Clear();
-            Checker.Unselect();
+            Game.Unselect();
             Checker.Cell = ToCell;
             Checker.ClearMoves();
             if (Killed!=null)
@@ -61,34 +70,12 @@ namespace CheckersLibrary.Moves
             ComputeAllowedMoves();
             if (IsExistMoveWithKill())
                 ClearMovesWithoutCills();
-            Game.IsWhite = !Game.IsWhite;
-            if (ToCell.Y == (Checker.MoveDirection == MoveDirection.BottomTop ? 0 : 7))
-            {
+            if (SetQueen)
                 Checker.BeQueen();
-            }
-            GameDataHandler.AddMove(this);
-            Game.IncrimentIndex();
-        }
-
-        public void Redo()
-        {
-            Checker.Cell.Clear();
-            Game.Unselect();
-            Checker.Cell = ToCell;
-            Checker.ClearMoves();
-            if (Killed != null)
-                foreach (Checker killedChecker in Killed)
-                    killedChecker.Kill();
-            if (Game.CheckEndOfGame())
-                return;
-            ComputeAllowedMoves();
-            if (IsExistMoveWithKill())
-                ClearMovesWithoutCills();
-            Game.IsWhite = !Game.IsWhite;
-            if (ToCell.Y == ((Checker.MoveDirection == MoveDirection.BottomTop) ? 0 : 7))
-            {
-                Checker.BeQueen();
-            }
+            if (!Game.VsCpu)
+                Game.IsWhite = !Game.IsWhite;
+            else
+                ArtificialIntelligence.Move();
         }
 
         public void Undo()
@@ -104,7 +91,7 @@ namespace CheckersLibrary.Moves
             if (IsExistMoveWithKill())
                 ClearMovesWithoutCills();
             Game.IsWhite = !Game.IsWhite;
-            if (ToCell.Y == (Checker.MoveDirection == MoveDirection.BottomTop ? 0 : 7))
+            if (ToCell.Y == (Checker.PlayerMoveDirection == PlayerMoveDirection.BottomTop ? 0 : 7))
             {
                 Checker.UnBeQueen();
             }
@@ -152,15 +139,18 @@ namespace CheckersLibrary.Moves
             }
             return false;
         }
+
         /// <summary>
         /// Compute allowed moves for all checkers
         /// </summary>
         private void ComputeAllowedMoves()
         {
-            foreach (Checker ch in GameDataHandler.BlackCheckers)
-                AllowedMovesCalculator.AllowedMovesCalculator.Calculate(ch);
-            foreach (Checker ch in GameDataHandler.WhiteCheckers)
-                AllowedMovesCalculator.AllowedMovesCalculator.Calculate(ch);
+            if (Checker is WhiteChecker)
+                foreach (Checker ch in GameDataHandler.BlackCheckers)
+                    AllowedMovesCalculator.AllowedMovesCalculator.Calculate(ch);
+            else
+                foreach (Checker ch in GameDataHandler.WhiteCheckers)
+                    AllowedMovesCalculator.AllowedMovesCalculator.Calculate(ch);
         }
     }
 }

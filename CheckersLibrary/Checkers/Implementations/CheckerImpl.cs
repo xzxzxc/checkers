@@ -20,14 +20,14 @@ namespace CheckersLibrary.Checkers.Implementations
         /// <summary>
         /// Direction of moves
         /// </summary>
-        public MoveDirection MoveDir { get; }
+        public PlayerMoveDirection PlayerMoveDir { get; }
         /// <summary>
         /// Default constructor for checker nature implemenattion
         /// </summary>
-        /// <param name="moveDir">Direction of moves</param>
-        protected CheckerImpl(MoveDirection moveDir)
+        /// <param name="playerMoveDir">Direction of moves</param>
+        protected CheckerImpl(PlayerMoveDirection playerMoveDir)
         {
-            MoveDir = moveDir;
+            PlayerMoveDir = playerMoveDir;
         }
 
         public abstract bool CheckForwardLeft();
@@ -46,9 +46,9 @@ namespace CheckersLibrary.Checkers.Implementations
         public abstract void AddMoveForwardRight(Checker checker);
         public abstract void AddMoveBackwardLeft(Checker checker);
         public abstract void AddMoveBackwardRight(Checker checker);
-        public abstract void AddMoveForwardLeft(Checker checker, List<Checker> killed, out Move move);
-        public abstract void AddMoveForwardRight(Checker checker, List<Checker> killed, out Move move);
-        public abstract void AddMoveBackwardLeft(Checker checker, List<Checker> killed, out Move move);
-        public abstract void AddMoveBackwardRight(Checker checker, List<Checker> killed, out Move move);
+        public abstract void AddMoveForwardLeft(Checker checker, Checker[] killed, out Move move);
+        public abstract void AddMoveForwardRight(Checker checker, Checker[] killed, out Move move);
+        public abstract void AddMoveBackwardLeft(Checker checker, Checker[] killed, out Move move);
+        public abstract void AddMoveBackwardRight(Checker checker, Checker[] killed, out Move move);
     }
 }

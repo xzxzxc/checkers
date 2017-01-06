@@ -10,25 +10,25 @@ namespace CheckersLibrary.Checkers.Implementations
     public class SimpleChImpl : CheckerImpl
     {
 
-        public SimpleChImpl(MoveDirection moveDir) : base(moveDir) {}
+        public SimpleChImpl(PlayerMoveDirection playerMoveDir) : base(playerMoveDir) {}
 
         public override bool CheckForwardLeft()
         {
-            if (MoveDir == MoveDirection.BottomTop ? Cell.X == 0 || Cell.Y == 0 : Cell.X == 7 || Cell.Y == 7)
+            if (PlayerMoveDir == PlayerMoveDirection.BottomTop ? Cell.X == 0 || Cell.Y == 0 : Cell.X == 7 || Cell.Y == 7)
                 return false;
             if (! TableCells.Cell[
-                MoveDir == MoveDirection.BottomTop ? Cell.X - 1 : Cell.X + 1,
-                MoveDir == MoveDirection.BottomTop ? Cell.Y - 1 : Cell.Y + 1].IsClear())
+                PlayerMoveDir == PlayerMoveDirection.BottomTop ? Cell.X - 1 : Cell.X + 1,
+                PlayerMoveDir == PlayerMoveDirection.BottomTop ? Cell.Y - 1 : Cell.Y + 1].IsClear())
                 return false;
             return true;
         }
         public override bool CheckForwardRight()
         {
-            if (MoveDir == MoveDirection.BottomTop ? Cell.X == 7 || Cell.Y == 0: Cell.X == 0 || Cell.Y == 7)
+            if (PlayerMoveDir == PlayerMoveDirection.BottomTop ? Cell.X == 7 || Cell.Y == 0: Cell.X == 0 || Cell.Y == 7)
                 return false;
             if (!TableCells.Cell[
-                MoveDir == MoveDirection.BottomTop ? Cell.X + 1 : Cell.X - 1,
-                MoveDir == MoveDirection.BottomTop ? Cell.Y - 1 : Cell.Y + 1].IsClear())
+                PlayerMoveDir == PlayerMoveDirection.BottomTop ? Cell.X + 1 : Cell.X - 1,
+                PlayerMoveDir == PlayerMoveDirection.BottomTop ? Cell.Y - 1 : Cell.Y + 1].IsClear())
                 return false;
             return true;
         }
@@ -43,18 +43,18 @@ namespace CheckersLibrary.Checkers.Implementations
         public override bool CheckKillForwardLeft(out Checker killed)
         {
             killed = null;
-            if (MoveDir == MoveDirection.BottomTop ? Cell.X < 2 || Cell.Y < 2 : Cell.X > 5 || Cell.Y > 5)
+            if (PlayerMoveDir == PlayerMoveDirection.BottomTop ? Cell.X < 2 || Cell.Y < 2 : Cell.X > 5 || Cell.Y > 5)
                 return false;
             if (!TableCells.Cell[
-                MoveDir == MoveDirection.BottomTop ? Cell.X - 2 : Cell.X + 2,
-                MoveDir == MoveDirection.BottomTop ? Cell.Y - 2 : Cell.Y + 2].IsClear())
+                PlayerMoveDir == PlayerMoveDirection.BottomTop ? Cell.X - 2 : Cell.X + 2,
+                PlayerMoveDir == PlayerMoveDirection.BottomTop ? Cell.Y - 2 : Cell.Y + 2].IsClear())
                 return false;
             Cell nextCell = TableCells.Cell[
-                MoveDir == MoveDirection.BottomTop ? Cell.X - 1 : Cell.X + 1,
-                MoveDir == MoveDirection.BottomTop ? Cell.Y - 1 : Cell.Y + 1];
+                PlayerMoveDir == PlayerMoveDirection.BottomTop ? Cell.X - 1 : Cell.X + 1,
+                PlayerMoveDir == PlayerMoveDirection.BottomTop ? Cell.Y - 1 : Cell.Y + 1];
             if (nextCell.IsClear())
                 return false;
-            if (nextCell.Checker.MoveDirection == MoveDir)
+            if (nextCell.Checker.PlayerMoveDirection == PlayerMoveDir)
                 return false;
             killed = nextCell.Checker;
             return true;
@@ -62,18 +62,18 @@ namespace CheckersLibrary.Checkers.Implementations
         public override bool CheckKillForwardRight(out Checker killed)
         {
             killed = null;
-            if (MoveDir == MoveDirection.BottomTop ? Cell.X > 5 || Cell.Y < 2 : Cell.X < 2 || Cell.Y > 5)
+            if (PlayerMoveDir == PlayerMoveDirection.BottomTop ? Cell.X > 5 || Cell.Y < 2 : Cell.X < 2 || Cell.Y > 5)
                 return false;
             if (!TableCells.Cell[
-                MoveDir == MoveDirection.BottomTop ? Cell.X + 2 : Cell.X - 2,
-                MoveDir == MoveDirection.BottomTop ? Cell.Y - 2 : Cell.Y + 2].IsClear())
+                PlayerMoveDir == PlayerMoveDirection.BottomTop ? Cell.X + 2 : Cell.X - 2,
+                PlayerMoveDir == PlayerMoveDirection.BottomTop ? Cell.Y - 2 : Cell.Y + 2].IsClear())
                 return false;
             Cell nextCell = TableCells.Cell[
-                MoveDir == MoveDirection.BottomTop ? Cell.X + 1 : Cell.X - 1,
-                MoveDir == MoveDirection.BottomTop ? Cell.Y - 1 : Cell.Y + 1];
+                PlayerMoveDir == PlayerMoveDirection.BottomTop ? Cell.X + 1 : Cell.X - 1,
+                PlayerMoveDir == PlayerMoveDirection.BottomTop ? Cell.Y - 1 : Cell.Y + 1];
             if (nextCell.IsClear())
                 return false;
-            if (nextCell.Checker.MoveDirection == MoveDir)
+            if (nextCell.Checker.PlayerMoveDirection == PlayerMoveDir)
                 return false;
             killed = nextCell.Checker;
             return true;
@@ -81,18 +81,18 @@ namespace CheckersLibrary.Checkers.Implementations
         public override bool CheckKillBackwardLeft(out Checker killed)
         {
             killed = null;
-            if (MoveDir == MoveDirection.BottomTop ? Cell.X < 2 || Cell.Y > 5 : Cell.X > 5 || Cell.Y < 2)
+            if (PlayerMoveDir == PlayerMoveDirection.BottomTop ? Cell.X < 2 || Cell.Y > 5 : Cell.X > 5 || Cell.Y < 2)
                 return false;
             if (!TableCells.Cell[
-                MoveDir == MoveDirection.BottomTop ? Cell.X - 2 : Cell.X + 2,
-                MoveDir == MoveDirection.BottomTop ? Cell.Y + 2 : Cell.Y - 2].IsClear())
+                PlayerMoveDir == PlayerMoveDirection.BottomTop ? Cell.X - 2 : Cell.X + 2,
+                PlayerMoveDir == PlayerMoveDirection.BottomTop ? Cell.Y + 2 : Cell.Y - 2].IsClear())
                 return false;
             Cell nextCell = TableCells.Cell[
-                MoveDir == MoveDirection.BottomTop ? Cell.X - 1 : Cell.X + 1,
-                MoveDir == MoveDirection.BottomTop ? Cell.Y + 1 : Cell.Y - 1];
+                PlayerMoveDir == PlayerMoveDirection.BottomTop ? Cell.X - 1 : Cell.X + 1,
+                PlayerMoveDir == PlayerMoveDirection.BottomTop ? Cell.Y + 1 : Cell.Y - 1];
             if (nextCell.IsClear())
                 return false;
-            if (nextCell.Checker.MoveDirection == MoveDir)
+            if (nextCell.Checker.PlayerMoveDirection == PlayerMoveDir)
                 return false;
             killed = nextCell.Checker;
             return true;
@@ -100,18 +100,18 @@ namespace CheckersLibrary.Checkers.Implementations
         public override bool CheckKillBackwardRight(out Checker killed)
         {
             killed = null;
-            if (MoveDir == MoveDirection.BottomTop ? Cell.X > 5 || Cell.Y > 5 : Cell.X < 2 || Cell.Y < 2)
+            if (PlayerMoveDir == PlayerMoveDirection.BottomTop ? Cell.X > 5 || Cell.Y > 5 : Cell.X < 2 || Cell.Y < 2)
                 return false;
             if (!TableCells.Cell[
-                MoveDir == MoveDirection.BottomTop ? Cell.X + 2 : Cell.X - 2,
-                MoveDir == MoveDirection.BottomTop ? Cell.Y + 2 : Cell.Y - 2].IsClear())
+                PlayerMoveDir == PlayerMoveDirection.BottomTop ? Cell.X + 2 : Cell.X - 2,
+                PlayerMoveDir == PlayerMoveDirection.BottomTop ? Cell.Y + 2 : Cell.Y - 2].IsClear())
                 return false;
             Cell nextCell = TableCells.Cell[
-                MoveDir == MoveDirection.BottomTop ? Cell.X + 1 : Cell.X - 1,
-                MoveDir == MoveDirection.BottomTop ? Cell.Y + 1 : Cell.Y - 1];
+                PlayerMoveDir == PlayerMoveDirection.BottomTop ? Cell.X + 1 : Cell.X - 1,
+                PlayerMoveDir == PlayerMoveDirection.BottomTop ? Cell.Y + 1 : Cell.Y - 1];
             if (nextCell.IsClear())
                 return false;
-            if (nextCell.Checker.MoveDirection == MoveDir)
+            if (nextCell.Checker.PlayerMoveDirection == PlayerMoveDir)
                 return false;
             killed = nextCell.Checker;
             return true;
@@ -122,8 +122,8 @@ namespace CheckersLibrary.Checkers.Implementations
             return new[]
             {
                 TableCells.Cell[
-                    MoveDir == MoveDirection.BottomTop ? Cell.X - 2 : Cell.X + 2,
-                    MoveDir == MoveDirection.BottomTop ? Cell.Y - 2 : Cell.Y + 2]
+                    PlayerMoveDir == PlayerMoveDirection.BottomTop ? Cell.X - 2 : Cell.X + 2,
+                    PlayerMoveDir == PlayerMoveDirection.BottomTop ? Cell.Y - 2 : Cell.Y + 2]
             };
         }
 
@@ -132,8 +132,8 @@ namespace CheckersLibrary.Checkers.Implementations
             return new[]
             {
                 TableCells.Cell[
-                    MoveDir == MoveDirection.BottomTop ? Cell.X + 2 : Cell.X - 2,
-                    MoveDir == MoveDirection.BottomTop ? Cell.Y - 2 : Cell.Y + 2]
+                    PlayerMoveDir == PlayerMoveDirection.BottomTop ? Cell.X + 2 : Cell.X - 2,
+                    PlayerMoveDir == PlayerMoveDirection.BottomTop ? Cell.Y - 2 : Cell.Y + 2]
             };
         }
 
@@ -142,8 +142,8 @@ namespace CheckersLibrary.Checkers.Implementations
             return new[]
             {
                 TableCells.Cell[
-                    MoveDir == MoveDirection.BottomTop ? Cell.X - 2 : Cell.X + 2,
-                    MoveDir == MoveDirection.BottomTop ? Cell.Y + 2 : Cell.Y - 2]
+                    PlayerMoveDir == PlayerMoveDirection.BottomTop ? Cell.X - 2 : Cell.X + 2,
+                    PlayerMoveDir == PlayerMoveDirection.BottomTop ? Cell.Y + 2 : Cell.Y - 2]
             };
         }
 
@@ -152,19 +152,25 @@ namespace CheckersLibrary.Checkers.Implementations
             return new[]
             {
                 TableCells.Cell[
-                    MoveDir == MoveDirection.BottomTop ? Cell.X + 2 : Cell.X - 2,
-                    MoveDir == MoveDirection.BottomTop ? Cell.Y + 2 : Cell.Y - 2]
+                    PlayerMoveDir == PlayerMoveDirection.BottomTop ? Cell.X + 2 : Cell.X - 2,
+                    PlayerMoveDir == PlayerMoveDirection.BottomTop ? Cell.Y + 2 : Cell.Y - 2]
             };
         }
 
         public override void AddMoveForwardLeft(Checker checker)
         {
-            AllowedMoves.Add(new MoveForwardLeft(checker));
+            AllowedMoves.Add(new Move(checker,
+                TableCells.Cell[
+                    (checker.PlayerMoveDirection == PlayerMoveDirection.BottomTop) ? checker.Cell.X - 1 : checker.Cell.X + 1,
+                    (checker.PlayerMoveDirection == PlayerMoveDirection.BottomTop) ? checker.Cell.Y - 1 : checker.Cell.Y + 1]));
         }
 
         public override void AddMoveForwardRight(Checker checker)
         {
-            AllowedMoves.Add(new MoveForwardRight(checker));
+            AllowedMoves.Add(new Move(checker,
+                TableCells.Cell[
+                    (checker.PlayerMoveDirection == PlayerMoveDirection.BottomTop) ? checker.Cell.X + 1 : checker.Cell.X - 1,
+                    (checker.PlayerMoveDirection == PlayerMoveDirection.BottomTop) ? checker.Cell.Y - 1 : checker.Cell.Y + 1]));
         }
 
         public override void AddMoveBackwardLeft(Checker checker)
@@ -177,27 +183,43 @@ namespace CheckersLibrary.Checkers.Implementations
             throw new Exception("Simple chacker can\'t go backward without kill");
         }
 
-        public override void AddMoveForwardLeft(Checker checker, List<Checker> killed, out Move move)
+        public override void AddMoveForwardLeft(Checker checker, Checker[] killed, out Move move)
         {
-            move = new MoveForwardLeft(checker, killed);
+            move = new Move(checker,
+                TableCells.Cell[
+                    (checker.PlayerMoveDirection == PlayerMoveDirection.BottomTop) ? checker.Cell.X - 2 : checker.Cell.X + 2,
+                    (checker.PlayerMoveDirection == PlayerMoveDirection.BottomTop) ? checker.Cell.Y - 2 : checker.Cell.Y + 2],
+                killed);
             AllowedMoves.Add(move);
         }
 
-        public override void AddMoveForwardRight(Checker checker, List<Checker> killed, out Move move)
+        public override void AddMoveForwardRight(Checker checker, Checker[] killed, out Move move)
         {
-            move = new MoveForwardRight(checker, killed);
+            move = new Move(checker,
+                TableCells.Cell[
+                    (checker.PlayerMoveDirection == PlayerMoveDirection.BottomTop) ? checker.Cell.X + 2 : checker.Cell.X - 2,
+                    (checker.PlayerMoveDirection == PlayerMoveDirection.BottomTop) ? checker.Cell.Y - 2 : checker.Cell.Y + 2],
+                killed);
             AllowedMoves.Add(move);
         }
 
-        public override void AddMoveBackwardLeft(Checker checker, List<Checker> killed, out Move move)
+        public override void AddMoveBackwardLeft(Checker checker, Checker[] killed, out Move move)
         {
-            move = new MoveBackwardLeft(checker, killed);
+            move = new Move(checker,
+                TableCells.Cell[
+                    (checker.PlayerMoveDirection == PlayerMoveDirection.BottomTop) ? checker.Cell.X - 2 : checker.Cell.X + 2,
+                    (checker.PlayerMoveDirection == PlayerMoveDirection.BottomTop) ? checker.Cell.Y + 2 : checker.Cell.Y - 2],
+                killed);
             AllowedMoves.Add(move);
         }
 
-        public override void AddMoveBackwardRight(Checker checker, List<Checker> killed, out Move move)
+        public override void AddMoveBackwardRight(Checker checker, Checker[] killed, out Move move)
         {
-            move = new MoveBackwardRight(checker, killed);
+            move = new Move(checker,
+                TableCells.Cell[
+                    (checker.PlayerMoveDirection == PlayerMoveDirection.BottomTop) ? checker.Cell.X + 2 : checker.Cell.X - 2,
+                    (checker.PlayerMoveDirection == PlayerMoveDirection.BottomTop) ? checker.Cell.Y + 2 : checker.Cell.Y - 2],
+                killed);
             AllowedMoves.Add(move);
         }
 

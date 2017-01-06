@@ -1,4 +1,5 @@
-﻿using CheckersLibrary;
+﻿using System.Linq;
+using CheckersLibrary;
 using CheckersLibrary.Cells;
 using CheckersLibrary.GraphicalImplementation;
 using CheckersLibrary.Moves;

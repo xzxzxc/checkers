@@ -12,8 +12,6 @@ namespace CheckersWindows.GraphicalImplementation
     public class WindowsCellImplementation : CellGraphicalImplementation
     {
         private readonly PictureBox _cellBox; // image of cell for windows form
-        // private readonly int _x;  // x location in windows form
-        // private readonly int _y;  // y location in windows form
 
         private void InitializeCellBox()
         {
@@ -63,7 +61,8 @@ namespace CheckersWindows.GraphicalImplementation
         {
             _cellBox.Controls.Add((PictureBox)checker.GetImage());
         }
-        public override Object GetImage()
+
+        public override object GetImage()
         {
             return _cellBox;
         }

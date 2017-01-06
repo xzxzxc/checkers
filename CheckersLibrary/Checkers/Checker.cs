@@ -48,7 +48,7 @@ namespace CheckersLibrary.Checkers
         /// <summary>
         /// Direction of moves
         /// </summary>
-        public MoveDirection MoveDirection => CheckerImpl.MoveDir;
+        public PlayerMoveDirection PlayerMoveDirection => CheckerImpl.PlayerMoveDir;
 
         /// <summary>
         /// Checker nature implementation
@@ -110,6 +110,7 @@ namespace CheckersLibrary.Checkers
             {
                 move.ToCell.ChangeBgColor(Color.BlueViolet);
                 move.ToCell.Click += move.Do;
+                move.ToCell.Click += move.AddSelfToGameMoveList;
             }
             GameDataHandler.Selected = this;
         }
@@ -123,6 +124,7 @@ namespace CheckersLibrary.Checkers
             {
                 move.ToCell.ChangeBgColor(Color.Gray);
                 move.ToCell.Click -= move.Do;
+                move.ToCell.Click -= move.AddSelfToGameMoveList;
             }
             GameDataHandler.Selected = null;
         }
@@ -144,9 +146,9 @@ namespace CheckersLibrary.Checkers
         /// Constructor of checker
         /// </summary>
         /// <param name="cell">Cell, where the checker located</param>
-        /// <param name="moveDirection">Direction of moves</param>
+        /// <param name="playerMoveDirection">Direction of moves</param>
         /// <param name="graphicalImplementation">Graphical implementation of checker</param>
-        protected Checker(Cell cell, MoveDirection moveDirection, CheckerGraphicalImplementation graphicalImplementation)
+        protected Checker(Cell cell, PlayerMoveDirection playerMoveDirection, CheckerGraphicalImplementation graphicalImplementation)
         {
             if (graphicalImplementation != null)
             {
@@ -154,7 +156,7 @@ namespace CheckersLibrary.Checkers
                 CheckerGraphicalImplementation.SpriteClick += CheckerClick;
                 CheckerGraphicalImplementation.SpriteClick += () => Click?.Invoke();
             }
-            CheckerImpl = new SimpleChImpl(moveDirection);
+            CheckerImpl = new SimpleChImpl(playerMoveDirection);
             Cell = cell;
             // cell.Checker = this;
         }
@@ -163,7 +165,7 @@ namespace CheckersLibrary.Checkers
         /// </summary>
         public void BeQueen()
         {
-            CheckerImpl = new QueenChImpl(MoveDirection) {Cell = CheckerImpl.Cell };
+            CheckerImpl = new QueenChImpl(PlayerMoveDirection) {Cell = CheckerImpl.Cell };
             CheckerGraphicalImplementation?.BeQueen();
         }
         /// <summary>
@@ -171,7 +173,7 @@ namespace CheckersLibrary.Checkers
         /// </summary>
         public void UnBeQueen()
         {
-            CheckerImpl = new SimpleChImpl(MoveDirection) { Cell = CheckerImpl.Cell };
+            CheckerImpl = new SimpleChImpl(PlayerMoveDirection) { Cell = CheckerImpl.Cell };
             CheckerGraphicalImplementation.UnBeQueen();
         }
 
@@ -192,129 +194,123 @@ namespace CheckersLibrary.Checkers
         {
             Cell = toCell;
         }
+
         /// <summary>
-        /// Check that checker can go forward left
+        /// Check if move without kills is allowed
         /// </summary>
-        /// <returns>True if can, false if can't</returns>
-        public bool CheckForwardLeft()
+        /// <param name="moveDirection">Move direction</param>
+        /// <returns>True, if allowed, false if not</returns>
+        public bool Check(MoveDirection moveDirection)
         {
-            return CheckerImpl.CheckForwardLeft();
+            switch (moveDirection)
+            {
+                case MoveDirection.ForwardLeft:
+                    return CheckerImpl.CheckForwardLeft();
+                case MoveDirection.ForwardRight:
+                    return CheckerImpl.CheckForwardRight();
+                case MoveDirection.BackwardLeft:
+                    return CheckerImpl.CheckBackwardLeft();
+                case MoveDirection.BackwardRight:
+                    return CheckerImpl.CheckBackwardRight();
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(moveDirection), moveDirection, null);
+            }
         }
+
         /// <summary>
-        /// Check that checker can go forward right
+        /// Check if move with kill is allowed
         /// </summary>
-        /// <returns>True if can, false if can't</returns>
-        public bool CheckForwardRight()
+        /// <param name="killed">Killed checker</param>
+        /// <param name="moveDirection">Move direction</param>
+        /// <returns>True, if allowed, false if not</returns>
+        public bool CheckKill(MoveDirection moveDirection, out Checker killed)
         {
-            return CheckerImpl.CheckForwardRight();
-        }
-        /// <summary>
-        /// Check that checker can go backward left
-        /// </summary>
-        /// <returns>True if can, false if can't</returns>
-        public bool CheckBackwardLeft()
-        {
-            return CheckerImpl.CheckBackwardLeft();
-        }
-        /// <summary>
-        /// Check that checker can go backward right
-        /// </summary>
-        /// <returns>True if can, false if can't</returns>
-        public bool CheckBackwardRight()
-        {
-            return CheckerImpl.CheckBackwardRight();
-        }
-        /// <summary>
-        /// Check that checker can go forward left and kill
-        /// </summary>
-        /// <returns>True if can, false if can't</returns>
-        public bool CheckKillForwardLeft(out Checker killed)
-        {
-            return CheckerImpl.CheckKillForwardLeft(out killed);
-        }
-        /// <summary>
-        /// Check that checker can go forward right and kill
-        /// </summary>
-        /// <returns>True if can, false if can't</returns>
-        public bool CheckKillForwardRight(out Checker killed)
-        {
-            return CheckerImpl.CheckKillForwardRight(out killed);
+            switch (moveDirection)
+            {
+                case MoveDirection.ForwardLeft:
+                    return CheckerImpl.CheckKillForwardLeft(out killed);
+                case MoveDirection.ForwardRight:
+                    return CheckerImpl.CheckKillForwardRight(out killed);
+                case MoveDirection.BackwardLeft:
+                    return CheckerImpl.CheckKillBackwardLeft(out killed);
+                case MoveDirection.BackwardRight:
+                    return CheckerImpl.CheckKillBackwardRight(out killed);
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(moveDirection), moveDirection, null);
+            }
         }
         /// <summary>
-        /// Check that checker can go backward left and kill
+        /// Get cells that can contains checker after kill
         /// </summary>
-        /// <returns>True if can, false if can't</returns>
-        public bool CheckKillBackwardLeft(out Checker killed)
+        /// <param name="moveDirection">Move direction</param>
+        /// <param name="killed">Killed checker</param>
+        /// <returns>Cells that can contains checker after kill</returns>
+        public Cell[] GetCellAfterKill(MoveDirection moveDirection, Checker killed)
         {
-            return CheckerImpl.CheckKillBackwardLeft(out killed);
+            switch (moveDirection)
+            {
+                case MoveDirection.ForwardLeft:
+                    return CheckerImpl.GetCellAfterKillForwardLeft(killed);
+                case MoveDirection.ForwardRight:
+                    return CheckerImpl.GetCellAfterKillForwardRight(killed);
+                case MoveDirection.BackwardLeft:
+                    return CheckerImpl.GetCellAfterKillBackwardLeft(killed);
+                case MoveDirection.BackwardRight:
+                    return CheckerImpl.GetCellAfterKillBackwardRight(killed);
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(moveDirection), moveDirection, null);
+            }
+        }
+
+        /// <summary>
+        /// Add move without kill
+        /// </summary>
+        /// <param name="moveDirection">Move direction</param>
+        public void AddMove(MoveDirection moveDirection)
+        {
+            switch (moveDirection)
+            {
+                case MoveDirection.ForwardLeft:
+                    CheckerImpl.AddMoveForwardLeft(this);
+                    return;
+                case MoveDirection.ForwardRight:
+                    CheckerImpl.AddMoveForwardRight(this);
+                    return;
+                case MoveDirection.BackwardLeft:
+                    CheckerImpl.AddMoveBackwardLeft(this);
+                    return;
+                case MoveDirection.BackwardRight:
+                    CheckerImpl.AddMoveBackwardRight(this);
+                    return;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(moveDirection), moveDirection, null);
+            }
         }
         /// <summary>
-        /// Check that checker can go backward right and kill
+        /// Add move with kills
         /// </summary>
-        /// <returns>True if can, false if can't</returns>
-        public bool CheckKillBackwardRight(out Checker killed)
+        /// <param name="moveDirection">Move direction</param>
+        /// <param name="killed">Checkers killed while move</param>
+        /// <param name="move">Move that was added</param>
+        public void AddMove(MoveDirection moveDirection, Checker[] killed, out Move move)
         {
-            return CheckerImpl.CheckKillBackwardRight(out killed);
-        }
-
-        public Cell[] GetCellAfterKillForwardLeft(Checker killed)
-        {
-            return CheckerImpl.GetCellAfterKillForwardLeft(killed);
-        }
-
-        public Cell[] GetCellAfterKillForwardRight(Checker killed)
-        {
-            return CheckerImpl.GetCellAfterKillForwardRight(killed);
-        }
-
-        public Cell[] GetCellAfterKillBackwardLeft(Checker killed)
-        {
-            return CheckerImpl.GetCellAfterKillBackwardLeft(killed);
-        }
-
-        public Cell[] GetCellAfterKillBackwardRight(Checker killed)
-        {
-            return CheckerImpl.GetCellAfterKillBackwardRight(killed);
-        }
-
-        public void AddMoveForwardLeft()
-        {
-            CheckerImpl.AddMoveForwardLeft(this);
-        }
-
-        public  void AddMoveForwardRight()
-        {
-            CheckerImpl.AddMoveForwardRight(this);
-        }
-
-        public  void AddMoveBackwardLeft()
-        {
-            CheckerImpl.AddMoveBackwardLeft(this);
-        }
-
-        public  void AddMoveBackwardRight()
-        {
-            CheckerImpl.AddMoveBackwardRight(this);
-        }
-
-        public  void AddMoveForwardLeft(List<Checker> killed, out Move move)
-        {
-            CheckerImpl.AddMoveForwardLeft(this, killed, out move);
-        }
-
-        public  void AddMoveForwardRight(List<Checker> killed, out Move move)
-        {
-            CheckerImpl.AddMoveForwardRight(this, killed, out move);
-        }
-
-        public  void AddMoveBackwardLeft(List<Checker> killed, out Move move)
-        {
-            CheckerImpl.AddMoveBackwardLeft(this, killed, out move);
-        }
-
-        public  void AddMoveBackwardRight(List<Checker> killed, out Move move)
-        {
-            CheckerImpl.AddMoveBackwardRight(this, killed, out move);
+            switch (moveDirection)
+            {
+                case MoveDirection.ForwardLeft:
+                    CheckerImpl.AddMoveForwardLeft(this, killed, out move);
+                    return;
+                case MoveDirection.ForwardRight:
+                    CheckerImpl.AddMoveForwardRight(this, killed, out move);
+                    return;
+                case MoveDirection.BackwardLeft:
+                    CheckerImpl.AddMoveBackwardLeft(this, killed, out move);
+                    return;
+                case MoveDirection.BackwardRight:
+                    CheckerImpl.AddMoveBackwardRight(this, killed, out move);
+                    return;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(moveDirection), moveDirection, null);
+            }
         }
     }
 }

@@ -104,6 +104,8 @@ namespace CheckersWindows
             this._menuToolStrip.Size = new Size(600, 25);
             this._menuToolStrip.TabIndex = 0;
 
+            FormBorderStyle = FormBorderStyle.FixedSingle;
+
             this.Controls.Add(this._menuToolStrip);
 
             this.ResumeLayout(false);

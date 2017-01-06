@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using CheckersLibrary.Cells;
 using CheckersLibrary.Checkers;
 using CheckersLibrary.Moves;
@@ -12,17 +14,17 @@ namespace CheckersLibrary.AllowedMovesCalculator
         /// </summary>
         private static Checker _checker;
         /// <summary>
-        /// cell of checker at start of computing
-        /// </summary>
-        private static Cell _primaryCell;
-        /// <summary>
         /// checker previous move while computing
         /// </summary>
         private static Move _previousMove;
         /// <summary>
-        /// list of killed chackers while computing multiple move
+        /// if true, after next move checker will be queen
         /// </summary>
-        private static List<Checker> _killedList;
+        private static bool _setQueen;
+        /// <summary>
+        /// List of nodes
+        /// </summary>
+        private static LinkedList<Node> _nodes;
 
 
         /// <summary>
@@ -30,72 +32,81 @@ namespace CheckersLibrary.AllowedMovesCalculator
         /// </summary>
         public static void Calculate(Checker checker)
         {
-            RememberChecker(checker);
-            Initialize();
+            Initialize(checker);
             ClearPreviousAllowedMoves();
             ComputeMovesWithoutKill();
             ComputeMovesWithKill();
             EndOfMultipleMove();
+            _checker = null;
         }
+        //private static MoveDirection GetOppositeDirection
         /// <summary>
         /// Compute moves with cills
         /// </summary>
         private static void ComputeMovesWithKill()
         {
-            Checker killed;
-            if (!(_previousMove is MoveBackwardRight) && _checker.CheckKillForwardLeft(out killed))
+            foreach (MoveDirection moveDir in  Enum.GetValues(typeof(MoveDirection)))
             {
-                _killedList.Add(killed);
-                _checker.AddMoveForwardLeft(_killedList, out _previousMove);
-                foreach (Cell toCell in _checker.GetCellAfterKillForwardLeft(killed))
+                Checker killed;
+                if (_checker.CheckKill(moveDir, out killed))
                 {
-                    _checker.Move(toCell);
-                    ComputeMovesWithKill();
+                    if (TryAddNode(killed, moveDir))
+                    {
+                        var killeds = from node in _nodes
+                            select node.Killed;
+                        _checker.AddMove(moveDir, killeds.ToArray(), out _previousMove);
+                        SetQueenIfNeeded();
+                        CheckWillNeedSetQueenNextMoves();
+                        foreach (Cell toCell in _checker.GetCellAfterKill(moveDir, killed))
+                        {
+                            _checker.Move(toCell);
+                            ComputeMovesWithKill();
+                        }
+                        // to prev node
+                        EndOfMultipleMove();
+                    }
                 }
-                EndOfMultipleMove();
-            }
-            if (!(_previousMove is MoveBackwardLeft) && _checker.CheckKillForwardRight(out killed))
-            {
-                _killedList.Add(killed);
-                _checker.AddMoveForwardRight(_killedList, out _previousMove);
-                foreach (Cell toCell in _checker.GetCellAfterKillForwardRight(killed))
-                {
-                    _checker.Move(toCell);
-                    ComputeMovesWithKill();
-                }
-                EndOfMultipleMove();
-            }
-            if (!(_previousMove is MoveForwardRight) && _checker.CheckKillBackwardLeft(out killed))
-            {
-                _killedList.Add(killed);
-                _checker.AddMoveBackwardLeft(_killedList, out _previousMove);
-                foreach (Cell toCell in _checker.GetCellAfterKillBackwardLeft(killed))
-                {
-                    _checker.Move(toCell);
-                    ComputeMovesWithKill();
-                }
-                EndOfMultipleMove();
-            }
-            if (!(_previousMove is MoveForwardLeft) && _checker.CheckKillBackwardRight(out killed))
-            {
-                _killedList.Add(killed);
-                _checker.AddMoveBackwardRight(_killedList, out _previousMove);
-                foreach (Cell toCell in _checker.GetCellAfterKillBackwardRight(killed))
-                {
-                    _checker.Move(toCell);
-                    ComputeMovesWithKill();
-                }
-                EndOfMultipleMove();
             }
         }
+
+        private static void CheckWillNeedSetQueenNextMoves()
+        {
+            if (_previousMove.SetQueen)
+                _setQueen = true;
+        }
+
+        private static void SetQueenIfNeeded()
+        {
+            if (_setQueen)
+                _previousMove.SetQueen = true;
+        }
+
+        private static bool TryAddNode(Checker killed, MoveDirection currentMoveDirection)
+        {
+            if (_nodes.Last?.Value.PreviousMoveDirection == ~currentMoveDirection) return false;
+            if (IsDublicate()) return false;
+            _nodes.AddLast(new Node(_checker.Cell, killed, currentMoveDirection));
+            return true;
+        }
+
+        private static bool IsDublicate()
+        {
+            foreach (var node in _nodes)
+                if (_checker.Cell == node.Cell)
+                    return true;
+            return false;
+        }
+
         /// <summary>
         /// Undo changes and cleare variables
         /// </summary>
         private static void EndOfMultipleMove()
         {
-            _killedList = new List<Checker>();
             _previousMove = null;
-            _checker.Cell = _primaryCell;
+            _setQueen = false;
+            if (_nodes.Last == null) return;
+            _checker.Move(_nodes.Last.Value.Cell);
+            _nodes.RemoveLast();
         }
         /// <summary>
         /// Delete previous allowed moves
@@ -109,30 +120,18 @@ namespace CheckersLibrary.AllowedMovesCalculator
         /// </summary>
         private static void ComputeMovesWithoutKill()
         {
-            if (_checker.CheckForwardLeft())
-                _checker.AddMoveForwardLeft();
-            if (_checker.CheckForwardRight())
-                _checker.AddMoveForwardRight();
-            if (_checker.CheckBackwardLeft())
-                _checker.AddMoveBackwardLeft();
-            if (_checker.CheckBackwardRight())
-                _checker.AddMoveBackwardRight();
-        }
-        /// <summary>
-        /// Remember current checker
-        /// </summary>
-        /// <param name="checker"></param>
-        private static void RememberChecker(Checker checker)
-        {
-            _checker = checker;
+            foreach (MoveDirection moveDir in Enum.GetValues(typeof(MoveDirection)))
+                if (_checker.Check(moveDir))
+                    _checker.AddMove(moveDir);
         }
         /// <summary>
         /// Initialize variables
         /// </summary>
-        private static void Initialize()
+        private static void Initialize(Checker checker)
         {
-            _primaryCell = _checker.Cell;
-            _killedList = new List<Checker>();
+            _checker = checker;
+            _nodes = new LinkedList<Node>();
+            _setQueen = false;
             _previousMove = null;
         }
     }

@@ -1,6 +1,6 @@
 ﻿namespace CheckersLibrary.Moves
 {
-    public enum MoveDirection
+    public enum PlayerMoveDirection
     {
         BottomTop,
         TopBottom
